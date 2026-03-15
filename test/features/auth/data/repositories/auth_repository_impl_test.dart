@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:ecom_riverpod/core/error/exceptions.dart';
 import 'package:ecom_riverpod/core/error/failure.dart';
+import 'package:ecom_riverpod/core/storage/token_storage.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:ecom_riverpod/features/auth/data/models/auth_response_model.dart';
 import 'package:ecom_riverpod/features/auth/data/repositories/auth_repository_impl.dart';
@@ -12,8 +13,11 @@ import '../../../../mock_data.dart';
 
 class MockAuthRemoteDataSource extends Mock implements AuthRemoteDataSource {}
 
+class MockTokenStorage extends Mock implements TokenStorage {}
+
 void main() {
   late AuthRemoteDataSource remoteDataSource;
+  late TokenStorage tokenStorage;
 
   late AuthRepositoryImpl repository;
 
@@ -22,22 +26,39 @@ void main() {
 
   setUp(() {
     remoteDataSource = MockAuthRemoteDataSource();
-
-    repository = AuthRepositoryImpl(remoteDataSource);
+    tokenStorage = MockTokenStorage();
+    repository = AuthRepositoryImpl(remoteDataSource, tokenStorage);
   });
 
-  test('should return auth response session when login succeeds', () async {
-    when(
-      () => remoteDataSource.login(username, password),
-    ).thenAnswer((_) async => mockAuthResponseModel);
+  test(
+    'should return auth response session and store tokens when login succeeds',
+    () async {
+      when(
+        () => remoteDataSource.login(username, password),
+      ).thenAnswer((_) async => mockAuthResponseModel);
 
-    final either = await repository.login(username, password);
+      when(
+        () => tokenStorage.saveTokens(
+          accessToken: any(named: 'accessToken'),
+          refreshToken: any(named: 'refreshToken'),
+        ),
+      ).thenAnswer((_) async {});
 
-    verify(() => remoteDataSource.login(username, password)).called(1);
-    verifyNoMoreInteractions(remoteDataSource);
+      final either = await repository.login(username, password);
 
-    expect(either, Right(mockAuthResponseModel.toEntity()));
-  });
+      verify(() => remoteDataSource.login(username, password)).called(1);
+      verifyNoMoreInteractions(remoteDataSource);
+
+      verify(
+        () => tokenStorage.saveTokens(
+          accessToken: mockAuthResponseModel.accessToken,
+          refreshToken: mockAuthResponseModel.refreshToken,
+        ),
+      ).called(1);
+
+      expect(either, Right(mockAuthResponseModel.toEntity()));
+    },
+  );
 
   test('should return auth failure on auth exception', () async {
     when(
