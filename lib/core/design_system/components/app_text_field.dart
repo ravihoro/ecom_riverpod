@@ -42,6 +42,7 @@ class AppTextField extends StatelessWidget {
           obscureText: obscureText,
           keyboardType: keyboardType,
           validator: validator,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           onChanged: onChanged,
           decoration: InputDecoration(
             hintText: placeholder,
