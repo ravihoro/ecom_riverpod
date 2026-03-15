@@ -24,17 +24,39 @@ class AppNavigation extends StatelessWidget {
         selectedItemColor: AppColors.primary,
         unselectedItemColor: Colors.grey,
         onTap: _onTap,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ''),
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.category_outlined),
-            label: '',
+            icon: Icon(
+              navigationShell.currentIndex == 0
+                  ? Icons.home
+                  : Icons.home_outlined,
+            ),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
-            label: '',
+            icon: Icon(
+              navigationShell.currentIndex == 1
+                  ? Icons.grid_view
+                  : Icons.grid_view_outlined,
+            ),
+            label: 'Category',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outlined), label: ''),
+          BottomNavigationBarItem(
+            icon: Icon(
+              navigationShell.currentIndex == 2
+                  ? Icons.shopping_cart
+                  : Icons.shopping_cart_outlined,
+            ),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              navigationShell.currentIndex == 3
+                  ? Icons.person
+                  : Icons.person_outlined,
+            ),
+            label: 'Profile',
+          ),
         ],
       ),
     );
