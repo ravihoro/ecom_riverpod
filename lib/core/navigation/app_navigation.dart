@@ -1,13 +1,24 @@
 import 'package:ecom_riverpod/core/design_system/app_colors.dart';
+import 'package:ecom_riverpod/core/router/route_names.dart';
+import 'package:ecom_riverpod/features/auth/presentation/controller/auth_controller.dart';
+import 'package:ecom_riverpod/features/auth/presentation/state/auth_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class AppNavigation extends StatelessWidget {
+class AppNavigation extends ConsumerWidget {
   final StatefulNavigationShell navigationShell;
 
   const AppNavigation({super.key, required this.navigationShell});
 
-  void _onTap(int index) {
+  void _onTap(int index, WidgetRef ref, BuildContext context) {
+    final authState = ref.read(authControllerProvider);
+
+    if (index == 3 && authState is UnAuthenticated) {
+      context.pushNamed(RouteNames.login);
+      return;
+    }
+
     navigationShell.goBranch(
       index,
       initialLocation: index == navigationShell.currentIndex,
@@ -15,7 +26,7 @@ class AppNavigation extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: Stack(
@@ -27,7 +38,9 @@ class AppNavigation extends StatelessWidget {
             selectedItemColor: AppColors.primary,
 
             unselectedItemColor: Colors.grey,
-            onTap: _onTap,
+            onTap: (index) {
+              _onTap(index, ref, context);
+            },
             items: [
               BottomNavigationBarItem(
                 icon: Icon(
