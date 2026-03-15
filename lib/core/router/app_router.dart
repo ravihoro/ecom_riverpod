@@ -1,6 +1,6 @@
 import 'package:ecom_riverpod/features/home/presentation/page/home_page.dart';
-import 'package:ecom_riverpod/router/route_names.dart';
-import 'package:ecom_riverpod/router/route_paths.dart';
+import 'package:ecom_riverpod/core/router/route_names.dart';
+import 'package:ecom_riverpod/core/router/route_paths.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter appRouter = GoRouter(

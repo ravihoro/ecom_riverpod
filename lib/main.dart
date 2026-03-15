@@ -1,5 +1,5 @@
 import 'package:ecom_riverpod/core/theme/app_theme.dart';
-import 'package:ecom_riverpod/router/app_router.dart';
+import 'package:ecom_riverpod/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
