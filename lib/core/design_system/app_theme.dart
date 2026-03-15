@@ -1,4 +1,5 @@
 import 'package:ecom_riverpod/core/design_system/app_colors.dart';
+import 'package:ecom_riverpod/core/design_system/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -23,6 +24,13 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(
       seedColor: AppColors.primary,
       primary: AppColors.primary,
+    ),
+
+    textTheme: TextTheme(
+      headlineLarge: AppTextStyles.heading,
+      titleLarge: AppTextStyles.title,
+      bodyMedium: AppTextStyles.body,
+      bodySmall: AppTextStyles.caption,
     ),
   );
 }
