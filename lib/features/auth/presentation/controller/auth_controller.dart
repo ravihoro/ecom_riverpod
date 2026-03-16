@@ -1,4 +1,6 @@
+import 'package:ecom_riverpod/core/usecase/usecase.dart';
 import 'package:ecom_riverpod/features/auth/presentation/state/auth_state.dart';
+import 'package:ecom_riverpod/features/auth/providers/auth_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_controller.g.dart';
@@ -7,6 +9,18 @@ part 'auth_controller.g.dart';
 class AuthController extends _$AuthController {
   @override
   AuthState build() {
-    return UnAuthenticated();
+    _checkIfLoggedIn();
+    return AuthLoading();
+  }
+
+  void _checkIfLoggedIn() async {
+    final isLoggedInUsecase = ref.read(isLoggedInUseCaseProvider);
+
+    final result = await isLoggedInUsecase(NoParams());
+
+    result.fold(
+      (l) => state = UnAuthenticated(),
+      (r) => state = Authenticated(),
+    );
   }
 }

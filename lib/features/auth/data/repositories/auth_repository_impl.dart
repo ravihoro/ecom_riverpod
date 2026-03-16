@@ -35,4 +35,13 @@ class AuthRepositoryImpl extends AuthRepository {
       return Left(ServerFailure(e.message));
     }
   }
+
+  @override
+  Future<bool> isLoggedIn() async {
+    final accessToken = await tokenStorage.getAccessToken();
+
+    if (accessToken == null) return false;
+
+    return true;
+  }
 }

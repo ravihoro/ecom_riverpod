@@ -4,4 +4,6 @@ import 'package:ecom_riverpod/features/auth/domain/entities/auth_session.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, AuthSession>> login(String username, String password);
+
+  Future<bool> isLoggedIn();
 }

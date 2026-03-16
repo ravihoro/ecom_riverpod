@@ -55,7 +55,7 @@ final appRouter = GoRouter(
             GoRoute(
               path: RoutePaths.profile,
               name: RouteNames.profile,
-              builder: (_, _) => SignInPage(),
+              builder: (_, _) => HomePage(),
             ),
           ],
         ),

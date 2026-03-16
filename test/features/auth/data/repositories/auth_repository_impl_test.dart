@@ -30,84 +30,106 @@ void main() {
     repository = AuthRepositoryImpl(remoteDataSource, tokenStorage);
   });
 
-  test(
-    'should return auth response session and store tokens when login succeeds',
-    () async {
+  group('should test auth and refresh tokens', () {
+    test(
+      'should return auth response session and store tokens when login succeeds',
+      () async {
+        when(
+          () => remoteDataSource.login(username, password),
+        ).thenAnswer((_) async => mockAuthResponseModel);
+
+        when(
+          () => tokenStorage.saveTokens(
+            accessToken: any(named: 'accessToken'),
+            refreshToken: any(named: 'refreshToken'),
+          ),
+        ).thenAnswer((_) async {});
+
+        final either = await repository.login(username, password);
+
+        verify(() => remoteDataSource.login(username, password)).called(1);
+        verifyNoMoreInteractions(remoteDataSource);
+
+        verify(
+          () => tokenStorage.saveTokens(
+            accessToken: mockAuthResponseModel.accessToken,
+            refreshToken: mockAuthResponseModel.refreshToken,
+          ),
+        ).called(1);
+
+        expect(either, Right(mockAuthResponseModel.toEntity()));
+      },
+    );
+
+    test('should return auth failure on auth exception', () async {
       when(
         () => remoteDataSource.login(username, password),
-      ).thenAnswer((_) async => mockAuthResponseModel);
+      ).thenThrow(AuthException('Login Failed'));
 
-      when(
-        () => tokenStorage.saveTokens(
-          accessToken: any(named: 'accessToken'),
-          refreshToken: any(named: 'refreshToken'),
-        ),
-      ).thenAnswer((_) async {});
-
-      final either = await repository.login(username, password);
+      final expectedAuthFailure = await repository.login(username, password);
 
       verify(() => remoteDataSource.login(username, password)).called(1);
+
       verifyNoMoreInteractions(remoteDataSource);
 
-      verify(
-        () => tokenStorage.saveTokens(
-          accessToken: mockAuthResponseModel.accessToken,
-          refreshToken: mockAuthResponseModel.refreshToken,
-        ),
-      ).called(1);
+      expect(
+        expectedAuthFailure,
+        Left<Failure, AuthSession>(AuthFailure('Login Failed')),
+      );
+    });
 
-      expect(either, Right(mockAuthResponseModel.toEntity()));
-    },
-  );
+    test('should return network failure on auth exception', () async {
+      when(
+        () => remoteDataSource.login(username, password),
+      ).thenThrow(NetworkException('Network Issue'));
 
-  test('should return auth failure on auth exception', () async {
-    when(
-      () => remoteDataSource.login(username, password),
-    ).thenThrow(AuthException('Login Failed'));
+      final expectedAuthFailure = await repository.login(username, password);
 
-    final expectedAuthFailure = await repository.login(username, password);
+      verify(() => remoteDataSource.login(username, password)).called(1);
 
-    verify(() => remoteDataSource.login(username, password)).called(1);
+      verifyNoMoreInteractions(remoteDataSource);
 
-    verifyNoMoreInteractions(remoteDataSource);
+      expect(
+        expectedAuthFailure,
+        Left<Failure, AuthSession>(NetworkFailure('Network Issue')),
+      );
+    });
 
-    expect(
-      expectedAuthFailure,
-      Left<Failure, AuthSession>(AuthFailure('Login Failed')),
-    );
+    test('should return server failure on auth exception', () async {
+      when(
+        () => remoteDataSource.login(username, password),
+      ).thenThrow(ServerException('Server Exception'));
+
+      final expectedAuthFailure = await repository.login(username, password);
+
+      verify(() => remoteDataSource.login(username, password)).called(1);
+
+      verifyNoMoreInteractions(remoteDataSource);
+
+      expect(
+        expectedAuthFailure,
+        Left<Failure, AuthSession>(ServerFailure('Server Exception')),
+      );
+    });
   });
 
-  test('should return network failure on auth exception', () async {
-    when(
-      () => remoteDataSource.login(username, password),
-    ).thenThrow(NetworkException('Network Issue'));
+  group('should test isLoggedIn()', () {
+    test('should return true if token is available', () async {
+      when(
+        () => tokenStorage.getAccessToken(),
+      ).thenAnswer((_) async => 'accessToken');
 
-    final expectedAuthFailure = await repository.login(username, password);
+      final value = await repository.isLoggedIn();
 
-    verify(() => remoteDataSource.login(username, password)).called(1);
+      expect(value, true);
+    });
 
-    verifyNoMoreInteractions(remoteDataSource);
+    test('should return false if token is null', () async {
+      when(() => tokenStorage.getAccessToken()).thenAnswer((_) async => null);
 
-    expect(
-      expectedAuthFailure,
-      Left<Failure, AuthSession>(NetworkFailure('Network Issue')),
-    );
-  });
+      final value = await repository.isLoggedIn();
 
-  test('should return server failure on auth exception', () async {
-    when(
-      () => remoteDataSource.login(username, password),
-    ).thenThrow(ServerException('Server Exception'));
-
-    final expectedAuthFailure = await repository.login(username, password);
-
-    verify(() => remoteDataSource.login(username, password)).called(1);
-
-    verifyNoMoreInteractions(remoteDataSource);
-
-    expect(
-      expectedAuthFailure,
-      Left<Failure, AuthSession>(ServerFailure('Server Exception')),
-    );
+      expect(value, false);
+    });
   });
 }
