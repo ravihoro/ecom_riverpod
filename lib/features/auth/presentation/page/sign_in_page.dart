@@ -10,29 +10,38 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 8,
-          children: [
-            Text(
-              'Sign In',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-            AppTextField(
-              placeholder: 'Enter Email',
-              title: 'Email',
-              validator: InputValidators.email,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            AppTextField(
-              placeholder: 'Enter Password',
-              title: 'Password',
-              validator: InputValidators.password,
-            ),
-            AppButton(text: 'Sign In', onPressed: () {}),
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.md),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: AppSpacing.lg,
+            children: [
+              Text(
+                'Sign In',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              Column(
+                spacing: AppSpacing.md,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppTextField(
+                    placeholder: 'Enter Email',
+                    title: 'Email',
+                    validator: InputValidators.email,
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  AppTextField(
+                    placeholder: 'Enter Password',
+                    title: 'Password',
+                    validator: InputValidators.password,
+                  ),
+                ],
+              ),
+
+              AppButton(text: 'Sign In', onPressed: () {}),
+            ],
+          ),
         ),
       ),
     );
