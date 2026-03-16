@@ -20,3 +20,7 @@ class NetworkFailure extends Failure {
 class AuthFailure extends Failure {
   const AuthFailure(super.message);
 }
+
+class TokenFailure extends Failure {
+  const TokenFailure(super.message);
+}
