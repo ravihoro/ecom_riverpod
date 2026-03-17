@@ -5,6 +5,8 @@ import 'package:ecom_riverpod/core/error/failure.dart';
 abstract class AuthRepository {
   Future<Either<Failure, AuthSession>> login(String username, String password);
 
+  Future<bool> logout();
+
   Future<void> saveTokens({
     required String accessToken,
     required String refreshToken,

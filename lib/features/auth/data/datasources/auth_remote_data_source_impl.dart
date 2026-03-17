@@ -11,21 +11,23 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<AuthResponseModel> login(String username, String password) async {
-    final response = await _dio.post(
-      ApiEndpoints.login,
-      data: {'username': username, 'password': password},
-    );
+    try {
+      final response = await _dio.post(
+        ApiEndpoints.login,
+        data: {'username': username, 'password': password},
+      );
 
-    final statusCode = response.statusCode;
-
-    if (statusCode == 200) {
       return AuthResponseModel.fromJson(response.data);
-    } else if (statusCode == 401) {
-      throw AuthException('Authentication Failed');
-    } else if (statusCode != null && statusCode >= 500) {
-      throw ServerException('Server Issue');
-    } else {
-      throw NetworkException('Network Exception');
+    } on DioException catch (e) {
+      final statusCode = e.response?.statusCode;
+
+      if (statusCode == 400) {
+        throw AuthException('Invalid Credentials');
+      } else if (statusCode != null && statusCode >= 500) {
+        throw ServerException('Server Issue');
+      } else {
+        throw NetworkException('Network Exception: ${e.message}');
+      }
     }
   }
 }

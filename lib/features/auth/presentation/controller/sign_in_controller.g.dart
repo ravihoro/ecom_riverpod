@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_controller.dart';
+part of 'sign_in_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,51 +9,51 @@ part of 'auth_controller.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(AuthController)
-final authControllerProvider = AuthControllerProvider._();
+@ProviderFor(SignInController)
+final signInControllerProvider = SignInControllerProvider._();
 
-final class AuthControllerProvider
-    extends $NotifierProvider<AuthController, AuthState> {
-  AuthControllerProvider._()
+final class SignInControllerProvider
+    extends $NotifierProvider<SignInController, SignInState> {
+  SignInControllerProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'authControllerProvider',
+        name: r'signInControllerProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$authControllerHash();
+  String debugGetCreateSourceHash() => _$signInControllerHash();
 
   @$internal
   @override
-  AuthController create() => AuthController();
+  SignInController create() => SignInController();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AuthState value) {
+  Override overrideWithValue(SignInState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<AuthState>(value),
+      providerOverride: $SyncValueProvider<SignInState>(value),
     );
   }
 }
 
-String _$authControllerHash() => r'7577bb0faac7830a5ea9be4db86c9d666459c12d';
+String _$signInControllerHash() => r'26aec2593b2326e7163f3427d869db88b17205a1';
 
-abstract class _$AuthController extends $Notifier<AuthState> {
-  AuthState build();
+abstract class _$SignInController extends $Notifier<SignInState> {
+  SignInState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AuthState, AuthState>;
+    final ref = this.ref as $Ref<SignInState, SignInState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AuthState, AuthState>,
-              AuthState,
+              AnyNotifier<SignInState, SignInState>,
+              SignInState,
               Object?,
               Object?
             >;

@@ -189,4 +189,14 @@ void main() {
       expect(value, false);
     });
   });
+
+  test('should test logout', () async {
+    when(() => localDataSource.clear()).thenAnswer((_) async => {});
+
+    bool value = await repository.logout();
+
+    verify(() => localDataSource.clear()).called(1);
+
+    expect(value, true);
+  });
 }

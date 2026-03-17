@@ -37,6 +37,12 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
+  Future<bool> logout() async {
+    await _localDataSource.clear();
+    return true;
+  }
+
+  @override
   Future<bool> isLoggedIn() async {
     final accessToken = await _localDataSource.getAccessToken();
 
