@@ -1,6 +1,5 @@
 import 'package:ecom_riverpod/core/design_system/app_colors.dart';
 import 'package:ecom_riverpod/core/design_system/app_font_sizes.dart';
-import 'package:ecom_riverpod/core/design_system/app_text_styles.dart';
 import 'package:ecom_riverpod/core/router/route_names.dart';
 import 'package:ecom_riverpod/features/auth/presentation/controller/auth_controller.dart';
 import 'package:ecom_riverpod/features/auth/presentation/state/auth_state.dart';

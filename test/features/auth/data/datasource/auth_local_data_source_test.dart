@@ -1,4 +1,6 @@
 import 'package:ecom_riverpod/core/storage/token_storage.dart';
+import 'package:ecom_riverpod/features/auth/data/datasources/auth_local_data_source.dart';
+import 'package:ecom_riverpod/features/auth/data/datasources/auth_local_data_source_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -8,11 +10,11 @@ class MockSecureStorage extends Mock implements FlutterSecureStorage {}
 void main() {
   late FlutterSecureStorage storage;
 
-  late TokenStorage tokenStorage;
+  late AuthLocalDataSource dataSource;
 
   setUp(() {
     storage = MockSecureStorage();
-    tokenStorage = TokenStorage(storage);
+    dataSource = AuthLocalDataSourceImpl(storage);
   });
 
   test('should save access and refresh tokens', () async {
@@ -23,7 +25,7 @@ void main() {
       ),
     ).thenAnswer((_) async {});
 
-    await tokenStorage.saveTokens(
+    await dataSource.saveTokens(
       accessToken: 'accessToken',
       refreshToken: 'refreshToken',
     );
@@ -46,7 +48,7 @@ void main() {
       () => storage.read(key: any(named: 'key')),
     ).thenAnswer((_) async => 'accessToken');
 
-    final accessToken = await tokenStorage.getAccessToken();
+    final accessToken = await dataSource.getAccessToken();
 
     verify(() => storage.read(key: TokenStorage.accessTokenKey)).called(1);
 
@@ -58,7 +60,7 @@ void main() {
       () => storage.read(key: any(named: 'key')),
     ).thenAnswer((_) async => 'refreshToken');
 
-    final refreshToken = await tokenStorage.getRefreshToken();
+    final refreshToken = await dataSource.getRefreshToken();
 
     verify(() => storage.read(key: TokenStorage.refreshTokenKey)).called(1);
 
@@ -68,7 +70,7 @@ void main() {
   test('should clear storage', () async {
     when(() => storage.deleteAll()).thenAnswer((_) async {});
 
-    await tokenStorage.clear();
+    await dataSource.clear();
 
     verify(() => storage.deleteAll()).called(1);
   });

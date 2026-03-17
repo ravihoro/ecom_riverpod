@@ -3,12 +3,11 @@ import 'package:ecom_riverpod/features/auth/presentation/page/sign_in_page.dart'
 import 'package:ecom_riverpod/features/home/presentation/page/home_page.dart';
 import 'package:ecom_riverpod/core/router/route_names.dart';
 import 'package:ecom_riverpod/core/router/route_paths.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ecom_riverpod/features/profile/presentation/page/profile_page.dart';
 import 'package:go_router/go_router.dart';
 
 final appRouter = GoRouter(
   initialLocation: RoutePaths.home,
-  redirect: (context, state) {},
   routes: [
     GoRoute(
       path: RoutePaths.login,
@@ -55,7 +54,7 @@ final appRouter = GoRouter(
             GoRoute(
               path: RoutePaths.profile,
               name: RouteNames.profile,
-              builder: (_, _) => HomePage(),
+              builder: (_, _) => ProfilePage(),
             ),
           ],
         ),

@@ -1,23 +1,23 @@
 import 'package:dartz/dartz.dart';
+import 'package:ecom_riverpod/core/domain/entities/auth_session.dart';
 import 'package:ecom_riverpod/core/error/exceptions.dart';
 import 'package:ecom_riverpod/core/error/failure.dart';
-import 'package:ecom_riverpod/core/storage/token_storage.dart';
+import 'package:ecom_riverpod/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:ecom_riverpod/features/auth/data/models/auth_response_model.dart';
 import 'package:ecom_riverpod/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:ecom_riverpod/features/auth/domain/entities/auth_session.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../mock_data.dart';
 
+class MockAuthLocalDataSource extends Mock implements AuthLocalDataSource {}
+
 class MockAuthRemoteDataSource extends Mock implements AuthRemoteDataSource {}
 
-class MockTokenStorage extends Mock implements TokenStorage {}
-
 void main() {
+  late AuthLocalDataSource localDataSource;
   late AuthRemoteDataSource remoteDataSource;
-  late TokenStorage tokenStorage;
 
   late AuthRepositoryImpl repository;
 
@@ -25,21 +25,21 @@ void main() {
   const password = 'password';
 
   setUp(() {
+    localDataSource = MockAuthLocalDataSource();
     remoteDataSource = MockAuthRemoteDataSource();
-    tokenStorage = MockTokenStorage();
-    repository = AuthRepositoryImpl(remoteDataSource, tokenStorage);
+    repository = AuthRepositoryImpl(localDataSource, remoteDataSource);
   });
 
-  group('should test auth and refresh tokens', () {
+  group('should test login', () {
     test(
-      'should return auth response session and store tokens when login succeeds',
+      'should save tokens and return auth response session when login succeeds',
       () async {
         when(
           () => remoteDataSource.login(username, password),
         ).thenAnswer((_) async => mockAuthResponseModel);
 
         when(
-          () => tokenStorage.saveTokens(
+          () => localDataSource.saveTokens(
             accessToken: any(named: 'accessToken'),
             refreshToken: any(named: 'refreshToken'),
           ),
@@ -47,15 +47,15 @@ void main() {
 
         final either = await repository.login(username, password);
 
-        verify(() => remoteDataSource.login(username, password)).called(1);
-        verifyNoMoreInteractions(remoteDataSource);
-
         verify(
-          () => tokenStorage.saveTokens(
+          () => localDataSource.saveTokens(
             accessToken: mockAuthResponseModel.accessToken,
             refreshToken: mockAuthResponseModel.refreshToken,
           ),
         ).called(1);
+
+        verify(() => remoteDataSource.login(username, password)).called(1);
+        verifyNoMoreInteractions(remoteDataSource);
 
         expect(either, Right(mockAuthResponseModel.toEntity()));
       },
@@ -113,10 +113,65 @@ void main() {
     });
   });
 
+  group('should test auth and refresh tokens', () {
+    test('should save tokens', () async {
+      when(
+        () => localDataSource.saveTokens(
+          accessToken: any(named: 'accessToken'),
+          refreshToken: any(named: 'refreshToken'),
+        ),
+      ).thenAnswer((_) async {});
+
+      await repository.saveTokens(
+        accessToken: mockAuthResponseModel.accessToken,
+        refreshToken: mockAuthResponseModel.refreshToken,
+      );
+
+      verify(
+        () => localDataSource.saveTokens(
+          accessToken: mockAuthResponseModel.accessToken,
+          refreshToken: mockAuthResponseModel.refreshToken,
+        ),
+      ).called(1);
+    });
+
+    test('should return auth token', () async {
+      when(() => localDataSource.getAccessToken()).thenAnswer((_) async {
+        return 'accessToken';
+      });
+
+      final accessToken = await repository.getAccessToken();
+
+      verify(() => localDataSource.getAccessToken()).called(1);
+
+      expect(accessToken, 'accessToken');
+    });
+
+    test('should return refresh token', () async {
+      when(() => localDataSource.getRefreshToken()).thenAnswer((_) async {
+        return 'refreshToken';
+      });
+
+      final refreshToken = await repository.getRefreshToken();
+
+      verify(() => localDataSource.getRefreshToken()).called(1);
+
+      expect(refreshToken, 'refreshToken');
+    });
+
+    test('should clear tokens', () async {
+      when(() => localDataSource.clear()).thenAnswer((_) async {});
+
+      await repository.clear();
+
+      verify(() => localDataSource.clear()).called(1);
+    });
+  });
+
   group('should test isLoggedIn()', () {
     test('should return true if token is available', () async {
       when(
-        () => tokenStorage.getAccessToken(),
+        () => localDataSource.getAccessToken(),
       ).thenAnswer((_) async => 'accessToken');
 
       final value = await repository.isLoggedIn();
@@ -125,7 +180,9 @@ void main() {
     });
 
     test('should return false if token is null', () async {
-      when(() => tokenStorage.getAccessToken()).thenAnswer((_) async => null);
+      when(
+        () => localDataSource.getAccessToken(),
+      ).thenAnswer((_) async => null);
 
       final value = await repository.isLoggedIn();
 

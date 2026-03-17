@@ -1,6 +1,4 @@
 import 'package:ecom_riverpod/features/auth/data/models/auth_response_model.dart';
-import 'package:ecom_riverpod/features/auth/domain/entities/auth_session.dart';
-import 'package:ecom_riverpod/features/auth/domain/entities/user.dart';
 
 final mockLoginData = {
   "id": 1,

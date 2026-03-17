@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:ecom_riverpod/core/constants/api_endpoints.dart';
 import 'package:ecom_riverpod/core/error/exceptions.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:ecom_riverpod/features/auth/data/datasources/auth_remote_data_source_impl.dart';
 import 'package:ecom_riverpod/features/auth/data/models/auth_response_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -20,7 +21,7 @@ void main() {
 
   setUp(() {
     dio = MockDio();
-    dataSource = AuthRemoteDataSource(dio);
+    dataSource = AuthRemoteDataSourceImpl(dio);
   });
 
   test('should return auth response on successful login', () async {
