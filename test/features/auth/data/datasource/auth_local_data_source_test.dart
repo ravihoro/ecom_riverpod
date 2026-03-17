@@ -1,4 +1,4 @@
-import 'package:ecom_riverpod/core/storage/token_storage.dart';
+import 'package:ecom_riverpod/core/constants/constants.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_local_data_source_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -31,15 +31,12 @@ void main() {
     );
 
     verify(
-      () =>
-          storage.write(key: TokenStorage.accessTokenKey, value: 'accessToken'),
+      () => storage.write(key: Constants.accessTokenKey, value: 'accessToken'),
     );
 
     verify(
-      () => storage.write(
-        key: TokenStorage.refreshTokenKey,
-        value: 'refreshToken',
-      ),
+      () =>
+          storage.write(key: Constants.refreshTokenKey, value: 'refreshToken'),
     );
   });
 
@@ -50,7 +47,7 @@ void main() {
 
     final accessToken = await dataSource.getAccessToken();
 
-    verify(() => storage.read(key: TokenStorage.accessTokenKey)).called(1);
+    verify(() => storage.read(key: Constants.accessTokenKey)).called(1);
 
     expect(accessToken, 'accessToken');
   });
@@ -62,7 +59,7 @@ void main() {
 
     final refreshToken = await dataSource.getRefreshToken();
 
-    verify(() => storage.read(key: TokenStorage.refreshTokenKey)).called(1);
+    verify(() => storage.read(key: Constants.refreshTokenKey)).called(1);
 
     expect(refreshToken, 'refreshToken');
   });
