@@ -1,4 +1,3 @@
-import 'package:ecom_riverpod/core/domain/entities/user.dart';
 import 'package:ecom_riverpod/core/usecase/usecase.dart';
 import 'package:ecom_riverpod/features/auth/presentation/state/auth_state.dart';
 import 'package:ecom_riverpod/features/auth/providers/auth_providers.dart';

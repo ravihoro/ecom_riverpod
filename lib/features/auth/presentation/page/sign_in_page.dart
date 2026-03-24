@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ecom_riverpod/core/design_system/app_spacing.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_button.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_text_field.dart';
@@ -56,6 +58,8 @@ class _SignInPageState extends ConsumerState<SignInPage> {
   Widget build(BuildContext context) {
     ref.listen(authControllerProvider, (previous, next) {
       if (next is Authenticated) {
+        print('##### popping login page');
+        log('##### popping login page');
         context.pop();
       }
     });
@@ -87,6 +91,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AppTextField(
+                      fieldKey: const Key('usernameField'),
                       placeholder: 'Enter Username',
                       title: 'Username',
                       validator: InputValidators.username,
@@ -94,6 +99,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                       onChanged: _onUsernameChanged,
                     ),
                     AppTextField(
+                      fieldKey: const Key('passwordField'),
                       placeholder: 'Enter Password',
                       title: 'Password',
                       validator: InputValidators.password,
@@ -102,12 +108,13 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                     ),
                   ],
                 ),
-
+                Text('is form valid: $isFormValid'),
                 Consumer(
                   builder: (context, ref, child) {
                     final state = ref.watch(signInControllerProvider);
 
                     return AppButton(
+                      buttonKey: const Key('buttonKey'),
                       text: 'Sign In',
                       onPressed: () {
                         FocusManager.instance.primaryFocus?.unfocus();
