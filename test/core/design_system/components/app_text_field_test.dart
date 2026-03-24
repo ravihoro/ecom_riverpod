@@ -70,4 +70,24 @@ void main() {
 
     expect(text, findsOneWidget);
   });
+
+  testWidgets('should apply key to text field', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: AppTextField(
+            fieldKey: const Key('fieldKey'),
+            placeholder: 'Search',
+            obscureText: false,
+          ),
+        ),
+      ),
+    );
+
+    await tester.pumpAndSettle();
+
+    final textField = find.byKey(const Key('fieldKey'));
+
+    expect(textField, findsOneWidget);
+  });
 }

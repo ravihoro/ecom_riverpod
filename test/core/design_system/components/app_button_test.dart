@@ -120,4 +120,24 @@ void main() {
 
     expect(count, 0);
   });
+
+  testWidgets('should apply key to button', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: AppButton(
+            key: const Key('buttonKey'),
+            text: 'Button',
+            onPressed: () {},
+          ),
+        ),
+      ),
+    );
+
+    await tester.pumpAndSettle();
+
+    final button = find.byKey(const Key('buttonKey'));
+
+    expect(button, findsOneWidget);
+  });
 }

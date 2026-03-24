@@ -9,6 +9,7 @@ class AppButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isLoading;
   final bool enabled;
+  final Key? buttonKey;
 
   const AppButton({
     super.key,
@@ -16,6 +17,7 @@ class AppButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.enabled = false,
+    this.buttonKey,
   });
 
   @override
@@ -26,6 +28,7 @@ class AppButton extends StatelessWidget {
       width: double.infinity,
       height: AppSpacing.xxl,
       child: ElevatedButton(
+        key: buttonKey,
         onPressed: isDisabled ? () {} : onPressed,
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(borderRadius: AppRadius.xxl),

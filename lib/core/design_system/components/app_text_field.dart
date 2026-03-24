@@ -11,6 +11,7 @@ class AppTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final TextEditingController? controller;
+  final Key? fieldKey;
 
   const AppTextField({
     super.key,
@@ -22,6 +23,7 @@ class AppTextField extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.controller,
+    this.fieldKey,
   });
 
   @override
@@ -41,6 +43,7 @@ class AppTextField extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
           ),
         TextFormField(
+          key: fieldKey,
           controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,
