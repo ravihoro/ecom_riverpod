@@ -29,7 +29,7 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final outlineBorder = OutlineInputBorder(
-      borderRadius: AppRadius.sm,
+      borderRadius: AppRadius.small,
       borderSide: BorderSide.none,
     );
 

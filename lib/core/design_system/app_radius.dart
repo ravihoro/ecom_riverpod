@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
 class AppRadius {
-  static const sm = BorderRadius.all(Radius.circular(8));
-  static const md = BorderRadius.all(Radius.circular(12));
-  static const lg = BorderRadius.all(Radius.circular(16));
-  static const xl = BorderRadius.all(Radius.circular(32));
-  static const xxl = BorderRadius.all(Radius.circular(48));
+  static const sm = 8.0;
+  static const md = 12.0;
+  static const lg = 16.0;
+  static const xl = 32.0;
+  static const xxl = 48.0;
+
+  static const small = BorderRadius.all(Radius.circular(sm));
+  static const medium = BorderRadius.all(Radius.circular(md));
+  static const large = BorderRadius.all(Radius.circular(lg));
+  static const extraLarge = BorderRadius.all(Radius.circular(xl));
+  static const extraExtraLarge = BorderRadius.all(Radius.circular(xxl));
 }
