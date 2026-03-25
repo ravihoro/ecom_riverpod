@@ -31,9 +31,7 @@ class AppButton extends StatelessWidget {
         key: buttonKey,
         onPressed: isDisabled ? () {} : onPressed,
         style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: AppRadius.extraExtraLarge,
-          ),
+          shape: RoundedRectangleBorder(borderRadius: AppRadius.xxl),
           backgroundColor: isDisabled
               ? AppColors.primary.shade200
               : AppColors.primary,

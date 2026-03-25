@@ -1,15 +1,10 @@
+import 'package:ecom_riverpod/core/design_system/app_sizes.dart';
 import 'package:flutter/material.dart';
 
 class AppRadius {
-  static const sm = 8.0;
-  static const md = 12.0;
-  static const lg = 16.0;
-  static const xl = 32.0;
-  static const xxl = 48.0;
-
-  static const small = BorderRadius.all(Radius.circular(sm));
-  static const medium = BorderRadius.all(Radius.circular(md));
-  static const large = BorderRadius.all(Radius.circular(lg));
-  static const extraLarge = BorderRadius.all(Radius.circular(xl));
-  static const extraExtraLarge = BorderRadius.all(Radius.circular(xxl));
+  static const sm = BorderRadius.all(Radius.circular(AppSizes.sm));
+  static const md = BorderRadius.all(Radius.circular(AppSizes.md));
+  static const lg = BorderRadius.all(Radius.circular(AppSizes.lg));
+  static const xl = BorderRadius.all(Radius.circular(AppSizes.xl));
+  static const xxl = BorderRadius.all(Radius.circular(AppSizes.xxl));
 }
