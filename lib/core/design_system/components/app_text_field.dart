@@ -1,4 +1,5 @@
 import 'package:ecom_riverpod/core/design_system/app_radius.dart';
+import 'package:ecom_riverpod/core/design_system/app_sizes.dart';
 import 'package:ecom_riverpod/core/design_system/app_spacing.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,7 @@ class AppTextField extends StatelessWidget {
   final void Function(String)? onChanged;
   final TextEditingController? controller;
   final Key? fieldKey;
+  final double height;
 
   const AppTextField({
     super.key,
@@ -24,6 +26,7 @@ class AppTextField extends StatelessWidget {
     this.onChanged,
     this.controller,
     this.fieldKey,
+    this.height = AppSizes.md,
   });
 
   @override
@@ -51,14 +54,15 @@ class AppTextField extends StatelessWidget {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           onChanged: onChanged,
           decoration: InputDecoration(
+            isDense: true,
             hintText: placeholder,
             hintStyle: const TextStyle(color: Colors.black54),
             filled: true,
             fillColor: Colors.grey.shade200,
             suffixIcon: suffixIcon,
-            contentPadding: const EdgeInsets.symmetric(
+            contentPadding: EdgeInsets.symmetric(
               horizontal: AppSpacing.md,
-              vertical: AppSpacing.md,
+              vertical: height,
             ),
             border: outlineBorder,
             enabledBorder: outlineBorder,
