@@ -1,3 +1,4 @@
+import 'package:ecom_riverpod/features/home/presentation/components/home_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -5,6 +6,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Home Page')));
+    return Scaffold(body: Column(children: [HomeAppBar()]));
   }
 }
