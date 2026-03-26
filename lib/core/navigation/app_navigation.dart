@@ -1,5 +1,6 @@
 import 'package:ecom_riverpod/core/design_system/app_colors.dart';
 import 'package:ecom_riverpod/core/design_system/app_font_sizes.dart';
+import 'package:ecom_riverpod/core/network/dio_provider.dart';
 import 'package:ecom_riverpod/core/router/route_names.dart';
 import 'package:ecom_riverpod/features/auth/presentation/controller/auth_controller.dart';
 import 'package:ecom_riverpod/features/auth/presentation/state/auth_state.dart';
@@ -28,63 +29,73 @@ class AppNavigation extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: Stack(
-        children: [
-          BottomNavigationBar(
-            backgroundColor: Colors.white,
-            currentIndex: navigationShell.currentIndex,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: AppColors.primary,
-            selectedFontSize: AppFontSizes.sm,
-            unselectedFontSize: AppFontSizes.sm,
-            unselectedItemColor: Colors.grey,
-            onTap: (index) {
-              _onTap(index, ref, context);
-            },
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(
-                  navigationShell.currentIndex == 0
-                      ? Icons.home
-                      : Icons.home_outlined,
+    return PopScope(
+      canPop: navigationShell.currentIndex == 0,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+
+        if (navigationShell.currentIndex != 0) {
+          navigationShell.goBranch(0);
+        }
+      },
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: Stack(
+          children: [
+            BottomNavigationBar(
+              backgroundColor: Colors.white,
+              currentIndex: navigationShell.currentIndex,
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: AppColors.primary,
+              selectedFontSize: AppFontSizes.sm,
+              unselectedFontSize: AppFontSizes.sm,
+              unselectedItemColor: Colors.grey,
+              onTap: (index) {
+                _onTap(index, ref, context);
+              },
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    navigationShell.currentIndex == 0
+                        ? Icons.home
+                        : Icons.home_outlined,
+                  ),
+                  label: 'Home',
                 ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  navigationShell.currentIndex == 1
-                      ? Icons.grid_view
-                      : Icons.grid_view_outlined,
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    navigationShell.currentIndex == 1
+                        ? Icons.grid_view
+                        : Icons.grid_view_outlined,
+                  ),
+                  label: 'Category',
                 ),
-                label: 'Category',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  navigationShell.currentIndex == 2
-                      ? Icons.shopping_cart
-                      : Icons.shopping_cart_outlined,
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    navigationShell.currentIndex == 2
+                        ? Icons.shopping_cart
+                        : Icons.shopping_cart_outlined,
+                  ),
+                  label: 'Cart',
                 ),
-                label: 'Cart',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  navigationShell.currentIndex == 3
-                      ? Icons.person
-                      : Icons.person_outlined,
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    navigationShell.currentIndex == 3
+                        ? Icons.person
+                        : Icons.person_outlined,
+                  ),
+                  label: 'Profile',
                 ),
-                label: 'Profile',
-              ),
-            ],
-          ),
-          Container(
-            width: double.infinity,
-            height: 2,
-            color: AppColors.primary.shade50,
-          ),
-          AnimatedSelectedIndexIndicator(index: navigationShell.currentIndex),
-        ],
+              ],
+            ),
+            Container(
+              width: double.infinity,
+              height: 2,
+              color: AppColors.primary.shade50,
+            ),
+            AnimatedSelectedIndexIndicator(index: navigationShell.currentIndex),
+          ],
+        ),
       ),
     );
   }
