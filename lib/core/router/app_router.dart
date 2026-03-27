@@ -1,5 +1,7 @@
 import 'package:ecom_riverpod/core/navigation/app_navigation.dart';
 import 'package:ecom_riverpod/features/auth/presentation/page/sign_in_page.dart';
+import 'package:ecom_riverpod/features/cart/presentation/page/cart_page.dart';
+import 'package:ecom_riverpod/features/category/presentation/page/category_page.dart';
 import 'package:ecom_riverpod/features/home/presentation/page/home_page.dart';
 import 'package:ecom_riverpod/core/router/route_names.dart';
 import 'package:ecom_riverpod/core/router/route_paths.dart';
@@ -34,7 +36,7 @@ final appRouter = GoRouter(
             GoRoute(
               path: RoutePaths.category,
               name: RouteNames.category,
-              builder: (_, _) => HomePage(),
+              builder: (_, _) => CategoryPage(),
             ),
           ],
         ),
@@ -44,7 +46,7 @@ final appRouter = GoRouter(
             GoRoute(
               path: RoutePaths.cart,
               name: RouteNames.cart,
-              builder: (_, _) => HomePage(),
+              builder: (_, _) => CartPage(),
             ),
           ],
         ),
