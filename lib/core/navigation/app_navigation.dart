@@ -1,6 +1,5 @@
 import 'package:ecom_riverpod/core/design_system/app_colors.dart';
 import 'package:ecom_riverpod/core/design_system/app_font_sizes.dart';
-import 'package:ecom_riverpod/core/network/dio_provider.dart';
 import 'package:ecom_riverpod/core/router/route_names.dart';
 import 'package:ecom_riverpod/features/auth/presentation/controller/auth_controller.dart';
 import 'package:ecom_riverpod/features/auth/presentation/state/auth_state.dart';
@@ -11,7 +10,7 @@ import 'package:go_router/go_router.dart';
 class AppNavigation extends ConsumerWidget {
   final StatefulNavigationShell navigationShell;
 
-  const AppNavigation({super.key, required this.navigationShell});
+  AppNavigation({super.key, required this.navigationShell});
 
   void _onTap(int index, WidgetRef ref, BuildContext context) {
     final authState = ref.read(authControllerProvider);
@@ -27,6 +26,8 @@ class AppNavigation extends ConsumerWidget {
     );
   }
 
+  DateTime? lastPressed;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return PopScope(
@@ -36,6 +37,18 @@ class AppNavigation extends ConsumerWidget {
 
         if (navigationShell.currentIndex != 0) {
           navigationShell.goBranch(0);
+        } else {
+          final now = DateTime.now();
+
+          if (lastPressed == null ||
+              now.difference(lastPressed!) < const Duration(seconds: 2)) {
+            lastPressed = now;
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('Press back again to exit')));
+          } else {
+            Navigator.of(context).pop();
+          }
         }
       },
       child: Scaffold(
