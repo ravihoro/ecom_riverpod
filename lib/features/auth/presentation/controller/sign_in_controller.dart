@@ -25,7 +25,7 @@ class SignInController extends _$SignInController {
         state = SignInError(l.message);
       },
       (r) {
-        ref.read(authControllerProvider.notifier).setAuthenticated(r.user);
+        ref.read(authControllerProvider.notifier).setAuthenticated(r);
 
         state = SignInSuccess();
       },

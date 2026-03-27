@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:ecom_riverpod/core/error/failure.dart';
-import 'package:ecom_riverpod/features/auth/data/models/auth_response_model.dart';
+import 'package:ecom_riverpod/features/auth/data/models/user_detail_model.dart';
 import 'package:ecom_riverpod/features/auth/domain/repositories/auth_repository.dart';
 import 'package:ecom_riverpod/features/auth/providers/auth_providers.dart';
 import 'package:ecom_riverpod/features/home/presentation/page/home_page.dart';
@@ -20,7 +20,7 @@ void main() {
 
   late AuthRepository repository;
 
-  final authSession = mockAuthResponseModel.toEntity();
+  final user = UserDetailModel.fromJson(mockUserDetail).toDomain();
 
   setUp(() {
     repository = MockAuthRepository();
@@ -28,10 +28,9 @@ void main() {
 
   testWidgets('should successfully login', (tester) async {
     when(() => repository.isLoggedIn()).thenAnswer((_) async => false);
-
     when(
       () => repository.login(any(), any()),
-    ).thenAnswer((_) async => Right(authSession));
+    ).thenAnswer((_) async => Right(user));
 
     await tester.pumpWidget(
       ProviderScope(

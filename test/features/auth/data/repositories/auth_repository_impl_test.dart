@@ -5,7 +5,7 @@ import 'package:ecom_riverpod/core/error/exceptions.dart';
 import 'package:ecom_riverpod/core/error/failure.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:ecom_riverpod/features/auth/data/models/auth_response_model.dart';
+import 'package:ecom_riverpod/features/auth/data/models/user_detail_model.dart';
 import 'package:ecom_riverpod/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -22,7 +22,7 @@ void main() {
 
   late AuthRepositoryImpl repository;
 
-  final authModel = AuthResponseModel.fromJson(mockLoginData);
+  final userDetailModel = UserDetailModel.fromJson(mockUserDetail);
 
   const username = 'username';
   const password = 'password';
@@ -42,6 +42,10 @@ void main() {
         ).thenAnswer((_) async => mockAuthResponseModel);
 
         when(
+          () => remoteDataSource.getUser(),
+        ).thenAnswer((_) async => userDetailModel);
+
+        when(
           () => localDataSource.saveTokens(
             accessToken: any(named: 'accessToken'),
             refreshToken: any(named: 'refreshToken'),
@@ -58,9 +62,10 @@ void main() {
         ).called(1);
 
         verify(() => remoteDataSource.login(username, password)).called(1);
-        verifyNoMoreInteractions(remoteDataSource);
 
-        expect(either, Right(mockAuthResponseModel.toEntity()));
+        verify(() => remoteDataSource.getUser()).called(1);
+
+        expect(either, Right(userDetailModel.toDomain()));
       },
     );
 
@@ -118,13 +123,15 @@ void main() {
 
   group('should test getUser', () {
     test('should return user', () async {
-      when(() => remoteDataSource.getUser()).thenAnswer((_) async => authModel);
+      when(
+        () => remoteDataSource.getUser(),
+      ).thenAnswer((_) async => userDetailModel);
 
       final either = await repository.getUser();
 
       verify(() => remoteDataSource.getUser()).called(1);
 
-      expect(either, Right(authModel.toEntity().user));
+      expect(either, Right(userDetailModel.toDomain()));
     });
 
     test('should return auth failure on auth exception', () async {

@@ -4,6 +4,7 @@ import 'package:ecom_riverpod/core/error/exceptions.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_remote_data_source_impl.dart';
 import 'package:ecom_riverpod/features/auth/data/models/auth_response_model.dart';
+import 'package:ecom_riverpod/features/auth/data/models/user_detail_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -109,7 +110,7 @@ void main() {
     test('should fetch current user', () async {
       when(() => dio.get(ApiEndpoints.me)).thenAnswer(
         (_) async => Response(
-          data: mockLoginData,
+          data: mockUserDetail,
           statusCode: 200,
           requestOptions: RequestOptions(path: ApiEndpoints.login),
         ),
@@ -117,9 +118,9 @@ void main() {
 
       final response = await dataSource.getUser();
 
-      verify(() => dio.post(ApiEndpoints.me)).called(1);
+      verify(() => dio.get(ApiEndpoints.me)).called(1);
 
-      expect(response, AuthResponseModel.fromJson(mockLoginData));
+      expect(response, UserDetailModel.fromJson(mockUserDetail));
     });
 
     test('should throw auth exception for invalid/expired token', () async {

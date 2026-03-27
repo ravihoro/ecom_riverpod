@@ -1,11 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:ecom_riverpod/core/domain/entities/auth_session.dart';
-import 'package:ecom_riverpod/core/domain/entities/user.dart';
+import 'package:ecom_riverpod/core/domain/entities/user_detail.dart';
 import 'package:ecom_riverpod/core/error/exceptions.dart';
 import 'package:ecom_riverpod/core/error/failure.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:ecom_riverpod/features/auth/data/models/auth_response_model.dart';
+import 'package:ecom_riverpod/features/auth/data/models/user_detail_model.dart';
 import 'package:ecom_riverpod/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -15,7 +14,7 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this._localDataSource, this._remoteDataSource);
 
   @override
-  Future<Either<Failure, AuthSession>> login(
+  Future<Either<Failure, UserDetail>> login(
     String username,
     String password,
   ) async {
@@ -27,7 +26,7 @@ class AuthRepositoryImpl extends AuthRepository {
         refreshToken: model.refreshToken,
       );
 
-      return Right(model.toEntity());
+      return await getUser();
     } on AuthException catch (e) {
       return Left(AuthFailure(e.message));
     } on NetworkException catch (e) {
@@ -38,11 +37,11 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> getUser() async {
+  Future<Either<Failure, UserDetail>> getUser() async {
     try {
-      final authModel = await _remoteDataSource.getUser();
+      final userDetailModel = await _remoteDataSource.getUser();
 
-      return Right(authModel.toEntity().user);
+      return Right(userDetailModel.toDomain());
     } on AuthException catch (e) {
       return Left(AuthFailure(e.message));
     } on NetworkException catch (e) {

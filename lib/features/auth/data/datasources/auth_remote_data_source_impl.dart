@@ -3,6 +3,7 @@ import 'package:ecom_riverpod/core/constants/api_endpoints.dart';
 import 'package:ecom_riverpod/core/error/exceptions.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:ecom_riverpod/features/auth/data/models/auth_response_model.dart';
+import 'package:ecom_riverpod/features/auth/data/models/user_detail_model.dart';
 
 class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   final Dio _dio;
@@ -32,11 +33,11 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<AuthResponseModel> getUser() async {
+  Future<UserDetailModel> getUser() async {
     try {
       final response = await _dio.get(ApiEndpoints.me);
 
-      return AuthResponseModel.fromJson(response.data);
+      return UserDetailModel.fromJson(response.data);
     } on DioException catch (e) {
       final statusCode = e.response?.statusCode;
 

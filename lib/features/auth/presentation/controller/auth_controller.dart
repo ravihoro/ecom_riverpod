@@ -1,4 +1,4 @@
-import 'package:ecom_riverpod/core/domain/entities/user.dart';
+import 'package:ecom_riverpod/core/domain/entities/user_detail.dart';
 import 'package:ecom_riverpod/core/usecase/usecase.dart';
 import 'package:ecom_riverpod/features/auth/presentation/state/auth_state.dart';
 import 'package:ecom_riverpod/features/auth/providers/auth_providers.dart';
@@ -22,7 +22,7 @@ class AuthController extends _$AuthController {
     result.fold((l) => state = UnAuthenticated(), (r) => getUser());
   }
 
-  void setAuthenticated(User user) {
+  void setAuthenticated(UserDetail user) {
     state = Authenticated(user);
   }
 

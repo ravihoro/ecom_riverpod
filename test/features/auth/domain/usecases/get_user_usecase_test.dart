@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:ecom_riverpod/core/error/failure.dart';
 import 'package:ecom_riverpod/core/usecase/usecase.dart';
-import 'package:ecom_riverpod/features/auth/data/models/auth_response_model.dart';
+import 'package:ecom_riverpod/features/auth/data/models/user_detail_model.dart';
 import 'package:ecom_riverpod/features/auth/domain/repositories/auth_repository.dart';
 import 'package:ecom_riverpod/features/auth/domain/usecases/get_user_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,7 +16,7 @@ void main() {
 
   late GetUserUsecase usecase;
 
-  final user = AuthResponseModel.fromJson(mockLoginData).toEntity().user;
+  final user = UserDetailModel.fromJson(mockUserDetail).toDomain();
 
   setUp(() {
     repository = MockAuthRepository();

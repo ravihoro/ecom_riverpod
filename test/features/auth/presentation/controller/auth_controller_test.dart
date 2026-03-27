@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:ecom_riverpod/core/error/failure.dart';
 import 'package:ecom_riverpod/core/usecase/usecase.dart';
-import 'package:ecom_riverpod/features/auth/data/models/auth_response_model.dart';
+import 'package:ecom_riverpod/features/auth/data/models/user_detail_model.dart';
 import 'package:ecom_riverpod/features/auth/domain/usecases/get_user_usecase.dart';
 import 'package:ecom_riverpod/features/auth/domain/usecases/is_logged_in_usecase.dart';
 import 'package:ecom_riverpod/features/auth/domain/usecases/sign_out_usecase.dart';
@@ -31,7 +31,7 @@ void main() {
 
   late ProviderContainer container;
 
-  final user = AuthResponseModel.fromJson(mockLoginData).toEntity().user;
+  final user = UserDetailModel.fromJson(mockUserDetail).toDomain();
 
   setUpAll(() {
     registerFallbackValue(FakeNoParams());
@@ -53,6 +53,8 @@ void main() {
   test('should set auth state as authenticated', () async {
     when(() => usecase(any())).thenAnswer((_) async => const Right(true));
 
+    when(() => getUserUsecase(any())).thenAnswer((_) async => Right(user));
+
     final states = <AuthState>[];
 
     container.listen(authControllerProvider, (previous, next) {
@@ -64,7 +66,8 @@ void main() {
     await Future.delayed(Duration.zero);
 
     expect(states[0], isA<AuthLoading>());
-    expect(states[1], isA<Authenticated>());
+    expect(states[1], isA<AuthLoading>());
+    expect(states[2], isA<Authenticated>());
   });
 
   test('should set auth state unauthenticated', () async {
@@ -88,6 +91,8 @@ void main() {
 
   test('should become unauthenticated after signout', () async {
     when(() => usecase(any())).thenAnswer((_) async => const Right(true));
+
+    when(() => getUserUsecase(any())).thenAnswer((_) async => Right(user));
 
     when(
       () => signOutUsecase.call(any<NoParams>()),

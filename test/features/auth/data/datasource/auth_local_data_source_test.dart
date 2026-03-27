@@ -12,6 +12,10 @@ void main() {
 
   late AuthLocalDataSource dataSource;
 
+  setUpAll(() {
+    registerFallbackValue('');
+  });
+
   setUp(() {
     storage = MockSecureStorage();
     dataSource = AuthLocalDataSourceImpl(storage);
@@ -32,12 +36,12 @@ void main() {
 
     verify(
       () => storage.write(key: Constants.accessTokenKey, value: 'accessToken'),
-    );
+    ).called(1);
 
     verify(
       () =>
           storage.write(key: Constants.refreshTokenKey, value: 'refreshToken'),
-    );
+    ).called(1);
   });
 
   test('should return access token', () async {

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:ecom_riverpod/features/auth/data/models/auth_response_model.dart';
+import 'package:ecom_riverpod/features/auth/data/models/user_detail_model.dart';
 import 'package:ecom_riverpod/features/auth/domain/usecases/sign_in_params.dart';
 import 'package:ecom_riverpod/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:ecom_riverpod/features/auth/domain/repositories/auth_repository.dart';
@@ -19,21 +19,21 @@ void main() {
     usecase = SignInUseCase(repository);
   });
 
-  test('should return auth session when login succeeds', () async {
+  test('should return user detail when login succeeds', () async {
     const username = 'username';
     const password = 'password';
 
-    final authSession = mockAuthResponseModel.toEntity();
+    final user = UserDetailModel.fromJson(mockUserDetail).toDomain();
 
     when(
       () => repository.login(username, password),
-    ).thenAnswer((_) async => Right(authSession));
+    ).thenAnswer((_) async => Right(user));
 
     final result = await usecase(
       SignInParams(username: username, password: password),
     );
 
-    expect(result, Right(authSession));
+    expect(result, Right(user));
 
     verify(() => repository.login(username, password)).called(1);
 

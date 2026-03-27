@@ -1,13 +1,11 @@
 import 'package:dartz/dartz.dart';
-import 'package:ecom_riverpod/core/domain/entities/auth_session.dart';
+import 'package:ecom_riverpod/core/domain/entities/user_detail.dart';
 import 'package:ecom_riverpod/core/error/failure.dart';
 
-import '../../../../core/domain/entities/user.dart';
-
 abstract class AuthRepository {
-  Future<Either<Failure, AuthSession>> login(String username, String password);
+  Future<Either<Failure, UserDetail>> login(String username, String password);
 
-  Future<Either<Failure, User>> getUser();
+  Future<Either<Failure, UserDetail>> getUser();
 
   Future<bool> logout();
 

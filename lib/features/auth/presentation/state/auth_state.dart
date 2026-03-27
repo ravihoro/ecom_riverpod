@@ -1,9 +1,9 @@
-import 'package:ecom_riverpod/core/domain/entities/user.dart';
+import 'package:ecom_riverpod/core/domain/entities/user_detail.dart';
 
 sealed class AuthState {}
 
 class Authenticated extends AuthState {
-  final User user;
+  final UserDetail user;
 
   Authenticated(this.user);
 }
