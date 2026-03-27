@@ -4,4 +4,6 @@ abstract class ApiEndpoints {
   static const me = '/auth/me';
   static const refresh = '/auth/refresh';
   static const categories = '/products/categories';
+  static String productsByCategory(String category) =>
+      '/products/categories/$category';
 }

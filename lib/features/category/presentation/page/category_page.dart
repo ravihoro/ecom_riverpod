@@ -1,9 +1,6 @@
-import 'package:dartz/dartz.dart';
 import 'package:ecom_riverpod/core/design_system/app_colors.dart';
 import 'package:ecom_riverpod/core/design_system/app_sizes.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_divider.dart';
-import 'package:ecom_riverpod/core/error/failure.dart';
-import 'package:ecom_riverpod/features/category/domain/entities/category.dart';
 import 'package:ecom_riverpod/features/category/presentation/controllers/categories_controller.dart';
 import 'package:ecom_riverpod/features/category/presentation/state/categories_state.dart';
 import 'package:flutter/material.dart';

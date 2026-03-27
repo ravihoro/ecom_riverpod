@@ -42,7 +42,7 @@ final class CategoriesControllerProvider
 }
 
 String _$categoriesControllerHash() =>
-    r'a431be099547f91920143b8257957cc5e5b3949b';
+    r'ca9e20f594b31734340cd289184bd8b4927f6f9a';
 
 abstract class _$CategoriesController extends $Notifier<CategoriesState> {
   CategoriesState build();
