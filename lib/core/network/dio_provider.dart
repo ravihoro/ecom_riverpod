@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:ecom_riverpod/core/constants/api_endpoints.dart';
-import 'package:ecom_riverpod/features/auth/providers/auth_providers.dart';
+import 'package:ecom_riverpod/core/network/auth_interceptors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final dioProvider = Provider<Dio>((ref) {
@@ -12,22 +12,7 @@ final dioProvider = Provider<Dio>((ref) {
     ),
   );
 
-  final localDataSource = ref.read(authLocalDataSourceProvider);
-
-  dio.interceptors.add(
-    InterceptorsWrapper(
-      onRequest: (options, handler) async {
-        final token = await localDataSource.getAccessToken();
-
-        if (token != null) {
-          print('token: $token');
-          options.headers['Authorization'] = 'Bearer $token';
-        }
-
-        handler.next(options);
-      },
-    ),
-  );
+  dio.interceptors.add(AuthInterceptors(ref, dio));
 
   return dio;
 });
