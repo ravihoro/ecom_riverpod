@@ -24,70 +24,136 @@ void main() {
     dataSource = AuthRemoteDataSourceImpl(dio);
   });
 
-  test('should return auth response on successful login', () async {
-    when(
-      () => dio.post(ApiEndpoints.login, data: any(named: 'data')),
-    ).thenAnswer(
-      (_) async => Response(
-        data: mockLoginData,
-        statusCode: 200,
-        requestOptions: RequestOptions(path: ApiEndpoints.login),
-      ),
-    );
+  group('should test login', () {
+    test('should return auth response on successful login', () async {
+      when(
+        () => dio.post(ApiEndpoints.login, data: any(named: 'data')),
+      ).thenAnswer(
+        (_) async => Response(
+          data: mockLoginData,
+          statusCode: 200,
+          requestOptions: RequestOptions(path: ApiEndpoints.login),
+        ),
+      );
 
-    final response = await dataSource.login(username, password);
+      final response = await dataSource.login(username, password);
 
-    verify(
-      () => dio.post(
-        ApiEndpoints.login,
-        data: {'username': username, 'password': password},
-      ),
-    ).called(1);
+      verify(
+        () => dio.post(
+          ApiEndpoints.login,
+          data: {'username': username, 'password': password},
+        ),
+      ).called(1);
 
-    expect(response, AuthResponseModel.fromJson(mockLoginData));
+      expect(response, AuthResponseModel.fromJson(mockLoginData));
+    });
+
+    test('should throw auth exception', () async {
+      when(
+        () => dio.post(ApiEndpoints.login, data: any(named: 'data')),
+      ).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(path: ApiEndpoints.login),
+          response: Response(
+            statusCode: 401,
+            requestOptions: RequestOptions(path: ApiEndpoints.login),
+          ),
+          type: DioExceptionType.badResponse,
+        ),
+      );
+
+      final call = dataSource.login;
+
+      expect(() => call(username, password), throwsA(isA<AuthException>()));
+    });
+    test('should throw server exception', () async {
+      when(
+        () => dio.post(ApiEndpoints.login, data: any(named: 'data')),
+      ).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(path: ApiEndpoints.login),
+          response: Response(
+            statusCode: 500,
+            requestOptions: RequestOptions(path: ApiEndpoints.login),
+          ),
+          type: DioExceptionType.badResponse,
+        ),
+      );
+
+      final call = dataSource.login;
+
+      expect(() => call(username, password), throwsA(isA<ServerException>()));
+    });
+
+    test('should throw network exception', () async {
+      when(
+        () => dio.post(ApiEndpoints.login, data: any(named: 'data')),
+      ).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(path: ApiEndpoints.login),
+          response: Response(
+            statusCode: 404,
+            requestOptions: RequestOptions(path: ApiEndpoints.login),
+          ),
+          type: DioExceptionType.badResponse,
+        ),
+      );
+
+      final call = dataSource.login;
+
+      expect(() => call(username, password), throwsA(isA<NetworkException>()));
+    });
   });
 
-  test('should throw auth exception', () async {
-    when(
-      () => dio.post(ApiEndpoints.login, data: any(named: 'data')),
-    ).thenAnswer(
-      (_) async => Response(
-        statusCode: 401,
-        requestOptions: RequestOptions(path: ApiEndpoints.login),
-      ),
-    );
+  group('should test get user api', () {
+    test('should fetch current user', () async {
+      when(() => dio.get(ApiEndpoints.me)).thenAnswer(
+        (_) async => Response(
+          data: mockLoginData,
+          statusCode: 200,
+          requestOptions: RequestOptions(path: ApiEndpoints.login),
+        ),
+      );
 
-    final call = dataSource.login;
+      final response = await dataSource.getUser();
 
-    expect(() => call(username, password), throwsA(isA<AuthException>()));
-  });
-  test('should throw server exception', () async {
-    when(
-      () => dio.post(ApiEndpoints.login, data: any(named: 'data')),
-    ).thenAnswer(
-      (_) async => Response(
-        statusCode: 500,
-        requestOptions: RequestOptions(path: ApiEndpoints.login),
-      ),
-    );
+      verify(() => dio.post(ApiEndpoints.me)).called(1);
 
-    final call = dataSource.login;
+      expect(response, AuthResponseModel.fromJson(mockLoginData));
+    });
 
-    expect(() => call(username, password), throwsA(isA<ServerException>()));
-  });
+    test('should throw auth exception for invalid/expired token', () async {
+      when(() => dio.get(ApiEndpoints.me)).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(path: ApiEndpoints.me),
+          response: Response(
+            statusCode: 401,
+            requestOptions: RequestOptions(path: ApiEndpoints.me),
+          ),
+          type: DioExceptionType.badResponse,
+        ),
+      );
 
-  test('should throw network exception', () async {
-    when(
-      () => dio.post(ApiEndpoints.login, data: any(named: 'data')),
-    ).thenAnswer(
-      (_) async => Response(
-        statusCode: 404,
-        requestOptions: RequestOptions(path: ApiEndpoints.login),
-      ),
-    );
+      final call = dataSource.getUser;
 
-    final call = dataSource.login;
+      expect(() => call(), throwsA(isA<AuthException>()));
+    });
 
-    expect(() => call(username, password), throwsA(isA<NetworkException>()));
+    test('should throw server exception', () async {
+      when(() => dio.get(ApiEndpoints.me)).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(path: ApiEndpoints.me),
+          response: Response(
+            statusCode: 500,
+            requestOptions: RequestOptions(path: ApiEndpoints.me),
+          ),
+          type: DioExceptionType.badResponse,
+        ),
+      );
+
+      final call = dataSource.getUser;
+
+      expect(() => call(), throwsA(isA<ServerException>()));
+    });
   });
 }

@@ -21,8 +21,27 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     } on DioException catch (e) {
       final statusCode = e.response?.statusCode;
 
-      if (statusCode == 400) {
+      if (statusCode == 401) {
         throw AuthException('Invalid Credentials');
+      } else if (statusCode != null && statusCode >= 500) {
+        throw ServerException('Server Issue');
+      } else {
+        throw NetworkException('Network Exception: ${e.message}');
+      }
+    }
+  }
+
+  @override
+  Future<AuthResponseModel> getUser() async {
+    try {
+      final response = await _dio.get(ApiEndpoints.me);
+
+      return AuthResponseModel.fromJson(response.data);
+    } on DioException catch (e) {
+      final statusCode = e.response?.statusCode;
+
+      if (statusCode == 401) {
+        throw AuthException('Invalid/Expired Token');
       } else if (statusCode != null && statusCode >= 500) {
         throw ServerException('Server Issue');
       } else {

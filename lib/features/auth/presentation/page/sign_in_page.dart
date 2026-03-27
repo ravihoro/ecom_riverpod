@@ -108,7 +108,6 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                     ),
                   ],
                 ),
-                Text('is form valid: $isFormValid'),
                 Consumer(
                   builder: (context, ref, child) {
                     final state = ref.watch(signInControllerProvider);

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:ecom_riverpod/core/domain/entities/auth_session.dart';
+import 'package:ecom_riverpod/core/domain/entities/user.dart';
 import 'package:ecom_riverpod/core/error/exceptions.dart';
 import 'package:ecom_riverpod/core/error/failure.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_local_data_source.dart';
@@ -20,6 +21,8 @@ void main() {
   late AuthRemoteDataSource remoteDataSource;
 
   late AuthRepositoryImpl repository;
+
+  final authModel = AuthResponseModel.fromJson(mockLoginData);
 
   const username = 'username';
   const password = 'password';
@@ -78,7 +81,7 @@ void main() {
       );
     });
 
-    test('should return network failure on auth exception', () async {
+    test('should return network failure on network exception', () async {
       when(
         () => remoteDataSource.login(username, password),
       ).thenThrow(NetworkException('Network Issue'));
@@ -95,7 +98,7 @@ void main() {
       );
     });
 
-    test('should return server failure on auth exception', () async {
+    test('should return server failure on server exception', () async {
       when(
         () => remoteDataSource.login(username, password),
       ).thenThrow(ServerException('Server Exception'));
@@ -109,6 +112,69 @@ void main() {
       expect(
         expectedAuthFailure,
         Left<Failure, AuthSession>(ServerFailure('Server Exception')),
+      );
+    });
+  });
+
+  group('should test getUser', () {
+    test('should return user', () async {
+      when(() => remoteDataSource.getUser()).thenAnswer((_) async => authModel);
+
+      final either = await repository.getUser();
+
+      verify(() => remoteDataSource.getUser()).called(1);
+
+      expect(either, Right(authModel.toEntity().user));
+    });
+
+    test('should return auth failure on auth exception', () async {
+      when(
+        () => remoteDataSource.getUser(),
+      ).thenThrow(AuthException('Invalid/Expired Tokens'));
+
+      final expectedAuthFailure = await repository.getUser();
+
+      verify(() => remoteDataSource.getUser()).called(1);
+
+      verifyNoMoreInteractions(remoteDataSource);
+
+      expect(
+        expectedAuthFailure,
+        Left<Failure, User>(AuthFailure('Invalid/Expired Tokens')),
+      );
+    });
+
+    test('should return server failure on server exception', () async {
+      when(
+        () => remoteDataSource.getUser(),
+      ).thenThrow(ServerException('Server exception'));
+
+      final expectedAuthFailure = await repository.getUser();
+
+      verify(() => remoteDataSource.getUser()).called(1);
+
+      verifyNoMoreInteractions(remoteDataSource);
+
+      expect(
+        expectedAuthFailure,
+        Left<Failure, User>(ServerFailure('Server exception')),
+      );
+    });
+
+    test('should return network failure on network exception', () async {
+      when(
+        () => remoteDataSource.getUser(),
+      ).thenThrow(NetworkException('Network exception'));
+
+      final expectedAuthFailure = await repository.getUser();
+
+      verify(() => remoteDataSource.getUser()).called(1);
+
+      verifyNoMoreInteractions(remoteDataSource);
+
+      expect(
+        expectedAuthFailure,
+        Left<Failure, User>(NetworkFailure('Network exception')),
       );
     });
   });

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:ecom_riverpod/core/domain/entities/auth_session.dart';
+import 'package:ecom_riverpod/core/domain/entities/user.dart';
 import 'package:ecom_riverpod/core/error/exceptions.dart';
 import 'package:ecom_riverpod/core/error/failure.dart';
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_local_data_source.dart';
@@ -27,6 +28,21 @@ class AuthRepositoryImpl extends AuthRepository {
       );
 
       return Right(model.toEntity());
+    } on AuthException catch (e) {
+      return Left(AuthFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> getUser() async {
+    try {
+      final authModel = await _remoteDataSource.getUser();
+
+      return Right(authModel.toEntity().user);
     } on AuthException catch (e) {
       return Left(AuthFailure(e.message));
     } on NetworkException catch (e) {

@@ -1,3 +1,4 @@
+import 'package:ecom_riverpod/core/domain/entities/user.dart';
 import 'package:ecom_riverpod/core/usecase/usecase.dart';
 import 'package:ecom_riverpod/features/auth/presentation/state/auth_state.dart';
 import 'package:ecom_riverpod/features/auth/providers/auth_providers.dart';
@@ -18,19 +19,27 @@ class AuthController extends _$AuthController {
 
     final result = await isLoggedInUsecase(NoParams());
 
-    result.fold(
-      (l) => state = UnAuthenticated(),
-      (r) => state = Authenticated(),
-    );
+    result.fold((l) => state = UnAuthenticated(), (r) => getUser());
   }
 
-  void setAuthenticated() {
-    state = Authenticated();
+  void setAuthenticated(User user) {
+    state = Authenticated(user);
   }
 
   Future<void> signOut() async {
     await ref.read(signOutUseCaseProvider).call(NoParams());
 
     state = UnAuthenticated();
+  }
+
+  Future<void> getUser() async {
+    state = AuthLoading();
+
+    final either = await ref.read(getUserUseCaseProvider).call(NoParams());
+
+    either.fold(
+      (l) => state = UnAuthenticated(),
+      (r) => state = Authenticated(r),
+    );
   }
 }

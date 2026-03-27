@@ -5,6 +5,7 @@ import 'package:ecom_riverpod/features/auth/data/datasources/auth_remote_data_so
 import 'package:ecom_riverpod/features/auth/data/datasources/auth_remote_data_source_impl.dart';
 import 'package:ecom_riverpod/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:ecom_riverpod/features/auth/domain/repositories/auth_repository.dart';
+import 'package:ecom_riverpod/features/auth/domain/usecases/get_user_usecase.dart';
 import 'package:ecom_riverpod/features/auth/domain/usecases/is_logged_in_usecase.dart';
 import 'package:ecom_riverpod/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:ecom_riverpod/features/auth/domain/usecases/sign_out_usecase.dart';
@@ -48,4 +49,9 @@ final signInUseCaseProvider = Provider<SignInUseCase>((ref) {
 final signOutUseCaseProvider = Provider<SignOutUsecase>((ref) {
   final repository = ref.read(authRepositoryProvider);
   return SignOutUsecase(repository);
+});
+
+final getUserUseCaseProvider = Provider<GetUserUsecase>((ref) {
+  final repository = ref.read(authRepositoryProvider);
+  return GetUserUsecase(repository);
 });
