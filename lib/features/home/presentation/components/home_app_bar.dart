@@ -17,7 +17,7 @@ class HomeAppBar extends StatelessWidget {
         left: AppSpacing.md,
         right: AppSpacing.md,
         bottom: AppSpacing.md,
-        top: AppSpacing.xxl,
+        top: AppSpacing.xl,
       ),
       decoration: BoxDecoration(
         color: AppColors.primary,
