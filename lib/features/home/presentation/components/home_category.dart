@@ -1,9 +1,9 @@
-import 'package:ecom_riverpod/core/design_system/app_colors.dart';
-import 'package:ecom_riverpod/core/design_system/app_sizes.dart';
 import 'package:ecom_riverpod/core/design_system/app_spacing.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_category_circle.dart';
-import 'package:ecom_riverpod/features/home/presentation/components/title_with_see_all.dart';
+import 'package:ecom_riverpod/core/design_system/components/title_with_see_all.dart';
+import 'package:ecom_riverpod/core/router/route_paths.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeCategory extends StatelessWidget {
   const HomeCategory({super.key});
@@ -22,7 +22,12 @@ class HomeCategory extends StatelessWidget {
       child: Column(
         spacing: AppSpacing.md,
         children: [
-          TitleWithSeeAll(title: 'Category'),
+          TitleWithSeeAll(
+            title: 'Category',
+            onTap: () {
+              context.go(RoutePaths.category);
+            },
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             spacing: AppSpacing.sm,

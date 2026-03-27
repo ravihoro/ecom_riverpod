@@ -3,4 +3,5 @@ abstract class ApiEndpoints {
   static const login = '/auth/login';
   static const me = '/auth/me';
   static const refresh = '/auth/refresh';
+  static const categories = '/products/categories';
 }

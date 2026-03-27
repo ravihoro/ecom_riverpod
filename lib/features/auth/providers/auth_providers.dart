@@ -31,11 +31,6 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl(localDataSource, remoteDataSource);
 });
 
-final signInUsecase = Provider<SignInUseCase>((ref) {
-  final repository = ref.read(authRepositoryProvider);
-  return SignInUseCase(repository);
-});
-
 final isLoggedInUseCaseProvider = Provider<IsLoggedInUsecase>((ref) {
   final repository = ref.read(authRepositoryProvider);
   return IsLoggedInUsecase(repository);

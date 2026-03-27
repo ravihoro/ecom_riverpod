@@ -3,6 +3,7 @@ import 'package:ecom_riverpod/core/design_system/app_colors.dart';
 import 'package:ecom_riverpod/core/design_system/app_font_sizes.dart';
 import 'package:ecom_riverpod/core/design_system/app_sizes.dart';
 import 'package:ecom_riverpod/core/design_system/app_spacing.dart';
+import 'package:ecom_riverpod/core/design_system/components/app_divider.dart';
 import 'package:ecom_riverpod/core/router/route_paths.dart';
 import 'package:ecom_riverpod/features/auth/presentation/controller/auth_controller.dart';
 import 'package:ecom_riverpod/features/auth/presentation/state/auth_state.dart';
@@ -98,12 +99,7 @@ class ProfilePage extends ConsumerWidget {
                       );
                     },
                     separatorBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.md,
-                        ),
-                        child: Divider(height: 1, color: Colors.grey.shade200),
-                      );
+                      return AppDivider();
                     },
                   ),
                 ),
