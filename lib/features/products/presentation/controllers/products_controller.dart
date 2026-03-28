@@ -7,7 +7,7 @@ part 'products_controller.g.dart';
 
 @riverpod
 class ProductsController extends _$ProductsController {
-  static const int _limit = 6;
+  static const int _limit = 8;
 
   @override
   ProductsState build(String category) {
@@ -31,7 +31,7 @@ class ProductsController extends _$ProductsController {
     );
   }
 
-  Future<void> _loadMore(String category) async {
+  Future<void> loadMore(String category) async {
     final currentState = state;
 
     if (currentState is ProductsData && !currentState.isLoadingMore) {

@@ -5,14 +5,44 @@ import 'package:ecom_riverpod/features/products/presentation/states/products_sta
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProductList extends ConsumerWidget {
+class ProductList extends ConsumerStatefulWidget {
   final String category;
-
   const ProductList({super.key, required this.category});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(productsControllerProvider(category));
+  ConsumerState<ProductList> createState() => _ProductListState();
+}
+
+class _ProductListState extends ConsumerState<ProductList> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final position = _scrollController.position;
+
+    final scrollPercent = position.pixels / position.maxScrollExtent;
+
+    if (scrollPercent >= 0.8) {
+      ref
+          .read(productsControllerProvider(widget.category).notifier)
+          .loadMore(widget.category);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(productsControllerProvider(widget.category));
 
     final spacingWidth = (2 * AppSpacing.sm) + AppSpacing.md;
     final totalWidth = MediaQuery.sizeOf(context).width;
@@ -31,6 +61,7 @@ class ProductList extends ConsumerWidget {
       ProductsData(products: final items) => Padding(
         padding: const EdgeInsets.all(AppSpacing.sm),
         child: GridView.builder(
+          controller: _scrollController,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: AppSpacing.md,
@@ -46,7 +77,7 @@ class ProductList extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(category, style: TextStyle(color: Colors.black)),
+        title: Text(widget.category, style: TextStyle(color: Colors.black)),
         centerTitle: true,
       ),
       body: body,
