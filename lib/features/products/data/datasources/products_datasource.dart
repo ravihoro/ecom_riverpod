@@ -6,4 +6,6 @@ abstract class ProductsDatasource {
     int limit,
     int skip,
   });
+
+  Future<ProductModel> getProductById(int id);
 }

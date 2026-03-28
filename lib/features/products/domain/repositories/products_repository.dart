@@ -8,4 +8,6 @@ abstract class ProductsRepository {
     int limit,
     int skip,
   );
+
+  Future<Either<Failure, Product>> getProductById(int id);
 }

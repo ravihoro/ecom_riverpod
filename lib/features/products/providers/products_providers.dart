@@ -3,6 +3,7 @@ import 'package:ecom_riverpod/features/products/data/datasources/products_dataso
 import 'package:ecom_riverpod/features/products/data/datasources/products_datasource_impl.dart';
 import 'package:ecom_riverpod/features/products/data/repositories/products_repository_impl.dart';
 import 'package:ecom_riverpod/features/products/domain/repositories/products_repository.dart';
+import 'package:ecom_riverpod/features/products/domain/usecases/get_product_by_id_usecase.dart';
 import 'package:ecom_riverpod/features/products/domain/usecases/get_products_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,4 +23,10 @@ final getProductsUseCaseProvider = Provider<GetProductsUsecase>((ref) {
   final repository = ref.read(productsRepositoryProvider);
 
   return GetProductsUsecase(repository);
+});
+
+final getProductByIdUseCaseProvider = Provider<GetProductByIdUsecase>((ref) {
+  final repository = ref.read(productsRepositoryProvider);
+
+  return GetProductByIdUsecase(repository);
 });

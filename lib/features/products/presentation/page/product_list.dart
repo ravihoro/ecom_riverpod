@@ -77,6 +77,7 @@ class _ProductListState extends ConsumerState<ProductList> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(widget.category, style: TextStyle(color: Colors.black)),
         centerTitle: true,
       ),

@@ -34,4 +34,23 @@ class ProductsDatasourceImpl implements ProductsDatasource {
       }
     }
   }
+
+  @override
+  Future<ProductModel> getProductById(int id) async {
+    try {
+      final response = await _dio.get(ApiEndpoints.productById(id));
+
+      final data = ProductModel.fromJson(response.data);
+
+      return data;
+    } on DioException catch (e) {
+      final statusCode = e.response?.statusCode;
+
+      if (statusCode != null && statusCode >= 500) {
+        throw ServerException('Server Error');
+      } else {
+        throw NetworkException('Network Issue');
+      }
+    }
+  }
 }
