@@ -4,4 +4,5 @@ abstract class RouteNames {
   static const cart = 'cart';
   static const profile = 'profile';
   static const login = 'login';
+  static const productList = 'product_list';
 }

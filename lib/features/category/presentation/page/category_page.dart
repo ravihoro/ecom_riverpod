@@ -1,10 +1,12 @@
 import 'package:ecom_riverpod/core/design_system/app_colors.dart';
 import 'package:ecom_riverpod/core/design_system/app_sizes.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_divider.dart';
+import 'package:ecom_riverpod/core/router/route_names.dart';
 import 'package:ecom_riverpod/features/category/presentation/controllers/categories_controller.dart';
 import 'package:ecom_riverpod/features/category/presentation/state/categories_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryPage extends ConsumerWidget {
   const CategoryPage({super.key});
@@ -24,7 +26,12 @@ class CategoryPage extends ConsumerWidget {
           final category = list[index];
           return ListTile(
             title: Text(category.name),
-            onTap: () => {},
+            onTap: () => {
+              context.pushNamed(
+                RouteNames.productList,
+                pathParameters: {'category': category.slug},
+              ),
+            },
             trailing: Icon(
               Icons.arrow_forward_ios,
               size: AppSizes.md,

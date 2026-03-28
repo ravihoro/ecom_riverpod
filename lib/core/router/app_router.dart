@@ -5,7 +5,9 @@ import 'package:ecom_riverpod/features/category/presentation/page/category_page.
 import 'package:ecom_riverpod/features/home/presentation/page/home_page.dart';
 import 'package:ecom_riverpod/core/router/route_names.dart';
 import 'package:ecom_riverpod/core/router/route_paths.dart';
+import 'package:ecom_riverpod/features/products/presentation/page/product_list.dart';
 import 'package:ecom_riverpod/features/profile/presentation/page/profile_page.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final appRouter = GoRouter(
@@ -61,6 +63,19 @@ final appRouter = GoRouter(
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: RoutePaths.productList,
+      name: RouteNames.productList,
+      builder: (_, state) {
+        final category = state.pathParameters['category'];
+
+        if (category == null) {
+          return Scaffold(body: Center(child: Text('Error')));
+        }
+
+        return ProductList(category: category);
+      },
     ),
   ],
 );

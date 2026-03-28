@@ -18,6 +18,6 @@ abstract class CategoryModel with _$CategoryModel {
 
 extension CategoryModelMapper on CategoryModel {
   Category toEntity() {
-    return Category(slub: slug, name: name, url: url);
+    return Category(slug: slug, name: name, url: url);
   }
 }

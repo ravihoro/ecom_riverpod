@@ -4,4 +4,5 @@ abstract class RoutePaths {
   static const cart = '/cart';
   static const profile = '/profile';
   static const login = '/login';
+  static const productList = '/products/:category';
 }

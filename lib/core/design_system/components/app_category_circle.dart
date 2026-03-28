@@ -6,25 +6,34 @@ import 'package:flutter/material.dart';
 class AppCategoryCircle extends StatelessWidget {
   final String title;
   final IconData icon;
+  final VoidCallback? onTap;
 
-  const AppCategoryCircle({super.key, required this.icon, required this.title});
+  const AppCategoryCircle({
+    super.key,
+    required this.icon,
+    required this.title,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: AppSpacing.sm,
-      children: [
-        Container(
-          height: 70,
-          width: 70,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade200,
-            shape: BoxShape.circle,
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        spacing: AppSpacing.sm,
+        children: [
+          Container(
+            height: 70,
+            width: 70,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: AppColors.primary, size: AppSizes.xl),
           ),
-          child: Icon(icon, color: AppColors.primary, size: AppSizes.xl),
-        ),
-        Text(title),
-      ],
+          Text(title),
+        ],
+      ),
     );
   }
 }

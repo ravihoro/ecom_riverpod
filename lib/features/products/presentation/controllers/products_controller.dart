@@ -10,8 +10,9 @@ class ProductsController extends _$ProductsController {
   static const int _limit = 6;
 
   @override
-  FutureOr<ProductsState> build(String category) async {
-    return await _getProducts(category, skip: 0);
+  ProductsState build(String category) {
+    _getProducts(category, skip: 0);
+    return ProductsLoading();
   }
 
   Future<ProductsState> _getProducts(
@@ -25,18 +26,18 @@ class ProductsController extends _$ProductsController {
     );
 
     return either.fold(
-      (l) => ProductsError(l.message),
-      (r) => ProductsData(r.products, r.skip, r.total),
+      (l) => state = ProductsError(l.message),
+      (r) => state = ProductsData(r.products, r.skip, r.total),
     );
   }
 
   Future<void> _loadMore(String category) async {
-    final currentState = state.value;
+    final currentState = state;
 
     if (currentState is ProductsData && !currentState.isLoadingMore) {
       if (currentState.products.length >= currentState.total) return;
 
-      state = AsyncData(currentState.copyWith(isLoadingMore: true));
+      state = currentState.copyWith(isLoadingMore: true);
 
       final nextSkip = currentState.products.length;
 
@@ -45,13 +46,11 @@ class ProductsController extends _$ProductsController {
           .call(GetProductsParams(category, _limit, nextSkip));
 
       either.fold(
-        (l) => state = AsyncData(currentState.copyWith(isLoadingMore: false)),
-        (r) => state = AsyncData(
-          currentState.copyWith(
-            products: [...currentState.products, ...r.products],
-            skip: r.skip,
-            isLoadingMore: false,
-          ),
+        (l) => state = currentState.copyWith(isLoadingMore: false),
+        (r) => state = currentState.copyWith(
+          products: [...currentState.products, ...r.products],
+          skip: r.skip,
+          isLoadingMore: false,
         ),
       );
     }

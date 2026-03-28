@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Category {
 
- String get slub; String get name; String get url;
+ String get slug; String get name; String get url;
 /// Create a copy of Category
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $CategoryCopyWith<Category> get copyWith => _$CategoryCopyWithImpl<Category>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Category&&(identical(other.slub, slub) || other.slub == slub)&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Category&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,slub,name,url);
+int get hashCode => Object.hash(runtimeType,slug,name,url);
 
 @override
 String toString() {
-  return 'Category(slub: $slub, name: $name, url: $url)';
+  return 'Category(slug: $slug, name: $name, url: $url)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $CategoryCopyWith<$Res>  {
   factory $CategoryCopyWith(Category value, $Res Function(Category) _then) = _$CategoryCopyWithImpl;
 @useResult
 $Res call({
- String slub, String name, String url
+ String slug, String name, String url
 });
 
 
@@ -62,9 +62,9 @@ class _$CategoryCopyWithImpl<$Res>
 
 /// Create a copy of Category
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? slub = null,Object? name = null,Object? url = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? slug = null,Object? name = null,Object? url = null,}) {
   return _then(_self.copyWith(
-slub: null == slub ? _self.slub : slub // ignore: cast_nullable_to_non_nullable
+slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,
@@ -152,10 +152,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String slub,  String name,  String url)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String slug,  String name,  String url)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Category() when $default != null:
-return $default(_that.slub,_that.name,_that.url);case _:
+return $default(_that.slug,_that.name,_that.url);case _:
   return orElse();
 
 }
@@ -173,10 +173,10 @@ return $default(_that.slub,_that.name,_that.url);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String slub,  String name,  String url)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String slug,  String name,  String url)  $default,) {final _that = this;
 switch (_that) {
 case _Category():
-return $default(_that.slub,_that.name,_that.url);case _:
+return $default(_that.slug,_that.name,_that.url);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -193,10 +193,10 @@ return $default(_that.slub,_that.name,_that.url);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String slub,  String name,  String url)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String slug,  String name,  String url)?  $default,) {final _that = this;
 switch (_that) {
 case _Category() when $default != null:
-return $default(_that.slub,_that.name,_that.url);case _:
+return $default(_that.slug,_that.name,_that.url);case _:
   return null;
 
 }
@@ -208,10 +208,10 @@ return $default(_that.slub,_that.name,_that.url);case _:
 
 
 class _Category implements Category {
-  const _Category({required this.slub, required this.name, required this.url});
+  const _Category({required this.slug, required this.name, required this.url});
   
 
-@override final  String slub;
+@override final  String slug;
 @override final  String name;
 @override final  String url;
 
@@ -225,16 +225,16 @@ _$CategoryCopyWith<_Category> get copyWith => __$CategoryCopyWithImpl<_Category>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Category&&(identical(other.slub, slub) || other.slub == slub)&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Category&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,slub,name,url);
+int get hashCode => Object.hash(runtimeType,slug,name,url);
 
 @override
 String toString() {
-  return 'Category(slub: $slub, name: $name, url: $url)';
+  return 'Category(slug: $slug, name: $name, url: $url)';
 }
 
 
@@ -245,7 +245,7 @@ abstract mixin class _$CategoryCopyWith<$Res> implements $CategoryCopyWith<$Res>
   factory _$CategoryCopyWith(_Category value, $Res Function(_Category) _then) = __$CategoryCopyWithImpl;
 @override @useResult
 $Res call({
- String slub, String name, String url
+ String slug, String name, String url
 });
 
 
@@ -262,9 +262,9 @@ class __$CategoryCopyWithImpl<$Res>
 
 /// Create a copy of Category
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? slub = null,Object? name = null,Object? url = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? slug = null,Object? name = null,Object? url = null,}) {
   return _then(_Category(
-slub: null == slub ? _self.slub : slub // ignore: cast_nullable_to_non_nullable
+slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,

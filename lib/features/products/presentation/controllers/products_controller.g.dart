@@ -13,7 +13,7 @@ part of 'products_controller.dart';
 final productsControllerProvider = ProductsControllerFamily._();
 
 final class ProductsControllerProvider
-    extends $AsyncNotifierProvider<ProductsController, ProductsState> {
+    extends $NotifierProvider<ProductsController, ProductsState> {
   ProductsControllerProvider._({
     required ProductsControllerFamily super.from,
     required String super.argument,
@@ -39,6 +39,14 @@ final class ProductsControllerProvider
   @override
   ProductsController create() => ProductsController();
 
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ProductsState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ProductsState>(value),
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     return other is ProductsControllerProvider && other.argument == argument;
@@ -51,15 +59,15 @@ final class ProductsControllerProvider
 }
 
 String _$productsControllerHash() =>
-    r'5b89af3a9380a0327e7142f1680723570450faba';
+    r'd4f520722a11c1a4987e764f361629883e7ffa10';
 
 final class ProductsControllerFamily extends $Family
     with
         $ClassFamilyOverride<
           ProductsController,
-          AsyncValue<ProductsState>,
           ProductsState,
-          FutureOr<ProductsState>,
+          ProductsState,
+          ProductsState,
           String
         > {
   ProductsControllerFamily._()
@@ -78,20 +86,20 @@ final class ProductsControllerFamily extends $Family
   String toString() => r'productsControllerProvider';
 }
 
-abstract class _$ProductsController extends $AsyncNotifier<ProductsState> {
+abstract class _$ProductsController extends $Notifier<ProductsState> {
   late final _$args = ref.$arg as String;
   String get category => _$args;
 
-  FutureOr<ProductsState> build(String category);
+  ProductsState build(String category);
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<ProductsState>, ProductsState>;
+    final ref = this.ref as $Ref<ProductsState, ProductsState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<ProductsState>, ProductsState>,
-              AsyncValue<ProductsState>,
+              AnyNotifier<ProductsState, ProductsState>,
+              ProductsState,
               Object?,
               Object?
             >;

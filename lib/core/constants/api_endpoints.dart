@@ -5,5 +5,5 @@ abstract class ApiEndpoints {
   static const refresh = '/auth/refresh';
   static const categories = '/products/categories';
   static String productsByCategory(String category) =>
-      '/products/categories/$category';
+      '/products/category/$category';
 }
