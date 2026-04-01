@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecom_riverpod/core/design_system/app_colors.dart';
 import 'package:ecom_riverpod/core/design_system/app_radius.dart';
 import 'package:ecom_riverpod/core/design_system/app_sizes.dart';
+import 'package:ecom_riverpod/core/design_system/components/app_rating.dart';
 import 'package:ecom_riverpod/core/router/route_names.dart';
 import 'package:ecom_riverpod/features/products/domain/entities/products_entity.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,7 @@ class AppProduct extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Rating(rating: product.rating),
+                AppRating(rating: product.rating),
               ],
             ),
           ),
@@ -82,24 +83,6 @@ class AppProduct extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class Rating extends StatelessWidget {
-  final double rating;
-
-  const Rating({super.key, required this.rating});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(Icons.star, color: Colors.amber, size: AppSizes.md),
-        Text('$rating', style: TextStyle(color: Colors.grey.shade500)),
-      ],
     );
   }
 }

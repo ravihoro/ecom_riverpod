@@ -1,5 +1,6 @@
 import 'package:ecom_riverpod/core/design_system/app_spacing.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_product.dart';
+import 'package:ecom_riverpod/core/design_system/components/app_scaffold.dart';
 import 'package:ecom_riverpod/features/products/presentation/controllers/products_controller.dart';
 import 'package:ecom_riverpod/features/products/presentation/states/products_state.dart';
 import 'package:flutter/material.dart';
@@ -75,13 +76,6 @@ class _ProductListState extends ConsumerState<ProductList> {
       ),
     };
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(widget.category, style: TextStyle(color: Colors.black)),
-        centerTitle: true,
-      ),
-      body: body,
-    );
+    return AppScaffold(title: widget.category, body: body);
   }
 }
