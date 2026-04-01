@@ -30,7 +30,7 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          height: 300,
+          height: widget.height,
           child: PageView.builder(
             physics: const PageScrollPhysics(),
             onPageChanged: (index) {
