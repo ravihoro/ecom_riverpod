@@ -6,5 +6,5 @@ abstract class ApiEndpoints {
   static const categories = '/products/categories';
   static String productsByCategory(String category) =>
       '/products/category/$category';
-  static String productById(int id) => 'products/$id';
+  static String productById(int id) => '/products/$id';
 }
