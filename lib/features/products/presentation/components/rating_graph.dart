@@ -58,7 +58,7 @@ class _RatingGraphRow extends StatelessWidget {
             borderRadius: AppRadius.sm,
             value: percentage,
             color: AppColors.primary,
-            backgroundColor: Colors.grey,
+            backgroundColor: Colors.grey.shade400,
           ),
         ),
       ],

@@ -8,14 +8,12 @@ class ProductInformation extends StatelessWidget {
   final String brand;
   final Dimensions dimensions;
   final String warranty;
-  final String shipping;
 
   const ProductInformation({
     super.key,
     required this.brand,
     required this.dimensions,
     required this.warranty,
-    required this.shipping,
   });
 
   @override
@@ -44,7 +42,6 @@ class ProductInformation extends StatelessWidget {
                 '${dimensions.depth}l x ${dimensions.width}w x ${dimensions.height}h',
           ),
           _ProductInformationRow(title: 'Warranty', description: warranty),
-          _ProductInformationRow(title: 'Shipping', description: shipping),
         ],
       ),
     );

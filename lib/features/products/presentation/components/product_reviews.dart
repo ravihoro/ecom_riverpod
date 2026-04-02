@@ -54,7 +54,7 @@ class ProductReviews extends StatelessWidget {
             itemBuilder: (context, index) {
               return _ProductReview(review: reviews[index]);
             },
-            separatorBuilder: (_, __) => Divider(),
+            separatorBuilder: (_, __) => Divider(color: Colors.grey.shade200),
             itemCount: reviews.length,
           ),
         ),

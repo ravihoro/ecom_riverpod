@@ -10,6 +10,7 @@ import 'package:ecom_riverpod/features/products/presentation/components/product_
 import 'package:ecom_riverpod/features/products/presentation/components/product_price.dart';
 import 'package:ecom_riverpod/features/products/presentation/components/product_reviews.dart';
 import 'package:ecom_riverpod/features/products/presentation/components/product_tags.dart';
+import 'package:ecom_riverpod/features/products/presentation/components/shipping_detail.dart';
 import 'package:ecom_riverpod/features/products/presentation/controllers/product_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -89,8 +90,9 @@ class ProductDetailPage extends ConsumerWidget {
                         brand: product.brand ?? '',
                         dimensions: product.dimensions,
                         warranty: product.warrantyInformation,
-                        shipping: product.shippingInformation,
                       ),
+
+                      ShippingDetail(text: product.shippingInformation),
 
                       Flexible(
                         child: ProductReviews(
