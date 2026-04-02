@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'favorites_controller.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class FavoritesController extends _$FavoritesController {
   @override
   FavoritesState build() {

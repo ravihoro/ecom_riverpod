@@ -2,6 +2,7 @@ import 'package:ecom_riverpod/core/navigation/app_navigation.dart';
 import 'package:ecom_riverpod/features/auth/presentation/page/sign_in_page.dart';
 import 'package:ecom_riverpod/features/cart/presentation/page/cart_page.dart';
 import 'package:ecom_riverpod/features/category/presentation/page/category_page.dart';
+import 'package:ecom_riverpod/features/favorites/presentation/page/favorites_page.dart';
 import 'package:ecom_riverpod/features/home/presentation/page/home_page.dart';
 import 'package:ecom_riverpod/core/router/route_names.dart';
 import 'package:ecom_riverpod/core/router/route_paths.dart';
@@ -90,6 +91,12 @@ final appRouter = GoRouter(
 
         return ProductDetailPage(id: int.parse(id));
       },
+    ),
+
+    GoRoute(
+      path: RoutePaths.favorites,
+      name: RouteNames.favorites,
+      builder: (_, __) => FavoritesPage(),
     ),
   ],
 );

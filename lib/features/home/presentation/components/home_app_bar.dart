@@ -3,7 +3,9 @@ import 'package:ecom_riverpod/core/design_system/app_radius.dart';
 import 'package:ecom_riverpod/core/design_system/app_sizes.dart';
 import 'package:ecom_riverpod/core/design_system/app_spacing.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_text_field.dart';
+import 'package:ecom_riverpod/core/router/route_names.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({super.key});
@@ -58,13 +60,21 @@ class HomeAppBar extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                decoration: BoxDecoration(
-                  borderRadius: AppRadius.sm,
-                  color: AppColors.primary.shade300,
+              GestureDetector(
+                onTap: () {
+                  context.pushNamed(RouteNames.favorites);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  decoration: BoxDecoration(
+                    borderRadius: AppRadius.sm,
+                    color: AppColors.primary.shade300,
+                  ),
+                  child: Icon(
+                    Icons.favorite_outline_sharp,
+                    color: Colors.white,
+                  ),
                 ),
-                child: Icon(Icons.notifications, color: Colors.white),
               ),
             ],
           ),

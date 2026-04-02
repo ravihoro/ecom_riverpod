@@ -6,4 +6,5 @@ abstract class RoutePaths {
   static const login = '/login';
   static const productList = '/category_products/:category';
   static const productDetail = '/products/:id';
+  static const favorites = '/favorites';
 }
