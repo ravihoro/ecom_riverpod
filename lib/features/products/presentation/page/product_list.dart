@@ -1,6 +1,7 @@
 import 'package:ecom_riverpod/core/design_system/app_spacing.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_product.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_scaffold.dart';
+import 'package:ecom_riverpod/features/favorites/presentation/controller/favorites_controller.dart';
 import 'package:ecom_riverpod/features/products/presentation/controllers/products_controller.dart';
 import 'package:ecom_riverpod/features/products/presentation/states/products_state.dart';
 import 'package:flutter/material.dart';
@@ -70,8 +71,30 @@ class _ProductListState extends ConsumerState<ProductList> {
             mainAxisExtent: totalHeight,
           ),
           itemCount: items.length,
-          itemBuilder: (context, index) =>
-              AppProduct(product: items[index], height: cardWidth),
+          itemBuilder: (context, index) {
+            final product = items[index];
+
+            final isFavorite = ref.watch(
+              favoritesControllerProvider.select(
+                (state) => state.ids.contains(product.id),
+              ),
+            );
+
+            final notifier = ref.read(favoritesControllerProvider.notifier);
+
+            return AppProduct(
+              product: product,
+              height: cardWidth,
+              isFavorite: isFavorite,
+              onFavoriteTap: isFavorite
+                  ? () {
+                      notifier.removeProduct(product.id);
+                    }
+                  : () {
+                      notifier.addFavorite(product);
+                    },
+            );
+          },
         ),
       ),
     };

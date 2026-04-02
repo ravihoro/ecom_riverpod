@@ -11,8 +11,16 @@ import 'package:go_router/go_router.dart';
 class AppProduct extends StatelessWidget {
   final Product product;
   final double height;
+  final bool isFavorite;
+  final VoidCallback? onFavoriteTap;
 
-  const AppProduct({super.key, required this.product, required this.height});
+  const AppProduct({
+    super.key,
+    required this.product,
+    required this.height,
+    this.isFavorite = false,
+    this.onFavoriteTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +48,22 @@ class AppProduct extends StatelessWidget {
                 Positioned(
                   right: AppSizes.sm,
                   top: AppSizes.sm,
-                  child: Container(
-                    height: AppSizes.lg,
-                    width: AppSizes.lg,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: Icon(
-                      Icons.favorite_border_outlined,
-                      color: AppColors.primary,
-                      size: AppSizes.md,
+                  child: GestureDetector(
+                    onTap: onFavoriteTap,
+                    child: Container(
+                      height: AppSizes.lg,
+                      width: AppSizes.lg,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                      child: Icon(
+                        isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border_outlined,
+                        color: AppColors.primary,
+                        size: AppSizes.md,
+                      ),
                     ),
                   ),
                 ),
