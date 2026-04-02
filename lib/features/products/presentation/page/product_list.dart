@@ -1,5 +1,7 @@
+import 'package:ecom_riverpod/core/components/product_card.dart';
 import 'package:ecom_riverpod/core/design_system/app_spacing.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_product.dart';
+import 'package:ecom_riverpod/core/design_system/components/app_product_list.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_scaffold.dart';
 import 'package:ecom_riverpod/features/favorites/presentation/controller/favorites_controller.dart';
 import 'package:ecom_riverpod/features/products/presentation/controllers/products_controller.dart';
@@ -7,53 +9,18 @@ import 'package:ecom_riverpod/features/products/presentation/states/products_sta
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProductList extends ConsumerStatefulWidget {
+class ProductList extends ConsumerWidget {
   final String category;
   const ProductList({super.key, required this.category});
 
   @override
-  ConsumerState<ProductList> createState() => _ProductListState();
-}
-
-class _ProductListState extends ConsumerState<ProductList> {
-  final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    final position = _scrollController.position;
-
-    final scrollPercent = position.pixels / position.maxScrollExtent;
-
-    if (scrollPercent >= 0.8) {
-      ref
-          .read(productsControllerProvider(widget.category).notifier)
-          .loadMore(widget.category);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final state = ref.watch(productsControllerProvider(widget.category));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(productsControllerProvider(category));
 
     final spacingWidth = (2 * AppSpacing.sm) + AppSpacing.md;
     final totalWidth = MediaQuery.sizeOf(context).width;
 
     final cardWidth = (totalWidth - spacingWidth) / 2;
-
-    final remainingHeight = 40;
-
-    final totalHeight = cardWidth + remainingHeight;
 
     final body = switch (state) {
       ProductsLoading() => Center(child: CircularProgressIndicator()),
@@ -62,43 +29,22 @@ class _ProductListState extends ConsumerState<ProductList> {
       ),
       ProductsData(products: final items) => Padding(
         padding: const EdgeInsets.all(AppSpacing.sm),
-        child: GridView.builder(
-          controller: _scrollController,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: AppSpacing.md,
-            crossAxisSpacing: AppSpacing.md,
-            mainAxisExtent: totalHeight,
-          ),
+        child: AppProductList(
           itemCount: items.length,
+          loadMore: () {
+            ref
+                .read(productsControllerProvider(category).notifier)
+                .loadMore(category);
+          },
           itemBuilder: (context, index) {
             final product = items[index];
 
-            final isFavorite = ref.watch(
-              favoritesControllerProvider.select(
-                (state) => state.ids.contains(product.id),
-              ),
-            );
-
-            final notifier = ref.read(favoritesControllerProvider.notifier);
-
-            return AppProduct(
-              product: product,
-              height: cardWidth,
-              isFavorite: isFavorite,
-              onFavoriteTap: isFavorite
-                  ? () {
-                      notifier.removeProduct(product.id);
-                    }
-                  : () {
-                      notifier.addFavorite(product);
-                    },
-            );
+            return ProductCard(product: product, cardWidth: cardWidth);
           },
         ),
       ),
     };
 
-    return AppScaffold(title: widget.category, body: body);
+    return AppScaffold(title: category, body: body);
   }
 }
