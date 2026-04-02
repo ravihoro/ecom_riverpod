@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecom_riverpod/core/design_system/app_colors.dart';
 import 'package:ecom_riverpod/core/design_system/app_font_sizes.dart';
+import 'package:ecom_riverpod/core/design_system/app_radius.dart';
 import 'package:ecom_riverpod/core/design_system/app_sizes.dart';
 import 'package:ecom_riverpod/core/design_system/app_spacing.dart';
+import 'package:ecom_riverpod/core/design_system/components/app_button.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_image_carousel.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_rating.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_scaffold.dart';
+import 'package:ecom_riverpod/features/products/presentation/components/add_to_cart_bottomsheet.dart';
 import 'package:ecom_riverpod/features/products/presentation/components/product_description.dart';
 import 'package:ecom_riverpod/features/products/presentation/components/product_information.dart';
 import 'package:ecom_riverpod/features/products/presentation/components/product_price.dart';
@@ -35,77 +39,85 @@ class ProductDetailPage extends ConsumerWidget {
       loading: () => Scaffold(body: Center(child: CircularProgressIndicator())),
       data: (product) => AppScaffold(
         title: product.title,
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            spacing: AppSizes.md,
-            children: [
-              AppImageCarousel(
-                itemCount: product.images.length,
-                itemBuilder: (context, index) {
-                  String image = product.images[index];
-                  return DecoratedBox(
-                    decoration: BoxDecoration(color: Colors.grey.shade100),
-                    child: CachedNetworkImage(
-                      imageUrl: image,
-                      height: 300,
-                      width: width,
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: AppSizes.md,
+                  children: [
+                    AppImageCarousel(
+                      itemCount: product.images.length,
+                      itemBuilder: (context, index) {
+                        String image = product.images[index];
+                        return DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl: image,
+                            height: 300,
+                            width: width,
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
 
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSizes.md),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: AppSpacing.md,
-                    children: [
-                      Row(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSizes.md,
+                        vertical: 0,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: AppSpacing.sm,
                         children: [
-                          Expanded(
-                            child: Text(
-                              product.title,
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontSize: AppFontSizes.lg,
-                                fontWeight: FontWeight.bold,
+                          Row(
+                            spacing: AppSpacing.sm,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  product.title,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    fontSize: AppFontSizes.lg,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                            ),
+                              AppRating(rating: product.rating),
+                            ],
                           ),
-                          AppRating(rating: product.rating),
+
+                          //ProductPrice(price: product.price),
+                          ProductTags(tags: product.tags),
+                          ProductDescription(description: product.description),
+
+                          ProductInformation(
+                            brand: product.brand ?? '',
+                            dimensions: product.dimensions,
+                            warranty: product.warrantyInformation,
+                          ),
+
+                          ShippingDetail(text: product.shippingInformation),
+
+                          ProductReviews(
+                            rating: product.rating,
+                            reviews: product.reviews,
+                          ),
                         ],
                       ),
-
-                      ProductPrice(price: product.price),
-
-                      ProductTags(tags: product.tags),
-
-                      ProductDescription(description: product.description),
-
-                      ProductInformation(
-                        brand: product.brand ?? '',
-                        dimensions: product.dimensions,
-                        warranty: product.warrantyInformation,
-                      ),
-
-                      ShippingDetail(text: product.shippingInformation),
-
-                      Flexible(
-                        child: ProductReviews(
-                          rating: product.rating,
-                          reviews: product.reviews,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: AppSizes.xs),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+            AddToCartBottomsheet(product: product),
+          ],
         ),
       ),
     );

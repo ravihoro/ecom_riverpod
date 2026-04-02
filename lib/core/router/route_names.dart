@@ -2,6 +2,7 @@ abstract class RouteNames {
   static const home = 'home';
   static const category = 'category';
   static const cart = 'cart';
+  static const cartFullScreen = 'cartFullScreen';
   static const profile = 'profile';
   static const login = 'login';
   static const productList = 'product_list';

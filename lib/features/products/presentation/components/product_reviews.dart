@@ -49,6 +49,7 @@ class ProductReviews extends StatelessWidget {
         SizedBox(height: AppSizes.sm),
         Flexible(
           child: ListView.separated(
+            padding: EdgeInsets.zero,
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {

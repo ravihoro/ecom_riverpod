@@ -98,5 +98,11 @@ final appRouter = GoRouter(
       name: RouteNames.favorites,
       builder: (_, __) => FavoritesPage(),
     ),
+
+    GoRoute(
+      path: RoutePaths.cartFullScreen,
+      name: RouteNames.cartFullScreen,
+      builder: (_, __) => CartPage(),
+    ),
   ],
 );
