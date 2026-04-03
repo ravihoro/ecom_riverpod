@@ -8,4 +8,5 @@ abstract class RoutePaths {
   static const productList = '/category_products/:category';
   static const productDetail = '/products/:id';
   static const favorites = '/favorites';
+  static const search = '/search';
 }

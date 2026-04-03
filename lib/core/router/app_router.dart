@@ -9,6 +9,7 @@ import 'package:ecom_riverpod/core/router/route_paths.dart';
 import 'package:ecom_riverpod/features/products/presentation/page/product_detail_page.dart';
 import 'package:ecom_riverpod/features/products/presentation/page/product_list.dart';
 import 'package:ecom_riverpod/features/profile/presentation/page/profile_page.dart';
+import 'package:ecom_riverpod/features/search/presentation/pages/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -103,6 +104,12 @@ final appRouter = GoRouter(
       path: RoutePaths.cartFullScreen,
       name: RouteNames.cartFullScreen,
       builder: (_, __) => CartPage(),
+    ),
+
+    GoRoute(
+      path: RoutePaths.search,
+      name: RouteNames.search,
+      builder: (_, __) => SearchPage(),
     ),
   ],
 );

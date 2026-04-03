@@ -1,9 +1,7 @@
 import 'package:ecom_riverpod/core/components/product_card.dart';
 import 'package:ecom_riverpod/core/design_system/app_spacing.dart';
-import 'package:ecom_riverpod/core/design_system/components/app_product.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_product_list.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_scaffold.dart';
-import 'package:ecom_riverpod/features/favorites/presentation/controller/favorites_controller.dart';
 import 'package:ecom_riverpod/features/products/presentation/controllers/products_controller.dart';
 import 'package:ecom_riverpod/features/products/presentation/states/products_state.dart';
 import 'package:flutter/material.dart';

@@ -14,6 +14,8 @@ class AppTextField extends StatelessWidget {
   final TextEditingController? controller;
   final Key? fieldKey;
   final double height;
+  final bool readOnly;
+  final VoidCallback? onTap;
 
   const AppTextField({
     super.key,
@@ -27,6 +29,8 @@ class AppTextField extends StatelessWidget {
     this.controller,
     this.fieldKey,
     this.height = AppSizes.md,
+    this.readOnly = false,
+    this.onTap,
   });
 
   @override
@@ -46,6 +50,8 @@ class AppTextField extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
           ),
         TextFormField(
+          onTap: onTap,
+          readOnly: readOnly,
           key: fieldKey,
           controller: controller,
           obscureText: obscureText,

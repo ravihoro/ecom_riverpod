@@ -11,10 +11,10 @@ class ProductsError extends ProductsState {
 }
 
 class ProductsData extends ProductsState {
-  int skip;
-  int total;
-  List<Product> products;
-  bool isLoadingMore;
+  final int skip;
+  final int total;
+  final List<Product> products;
+  final bool isLoadingMore;
 
   ProductsData(
     this.products,

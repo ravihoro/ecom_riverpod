@@ -8,4 +8,5 @@ abstract class RouteNames {
   static const productList = 'product_list';
   static const productDetail = 'product_detail';
   static const favorites = 'favorites';
+  static const search = 'search';
 }

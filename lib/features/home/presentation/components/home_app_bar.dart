@@ -84,6 +84,10 @@ class HomeAppBar extends StatelessWidget {
               children: [
                 Expanded(
                   child: AppTextField(
+                    onTap: () {
+                      context.pushNamed(RouteNames.search);
+                    },
+                    readOnly: true,
                     placeholder: 'Search',
                     height: AppSizes.msm,
                   ),
