@@ -1,4 +1,5 @@
 abstract class AppSizes {
+  static const xxs = 3.0;
   static const xs = 4.0;
   static const sm = 8.0;
   static const msm = 12.0;

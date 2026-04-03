@@ -1,8 +1,10 @@
 import 'package:ecom_riverpod/core/design_system/app_colors.dart';
 import 'package:ecom_riverpod/core/design_system/app_font_sizes.dart';
+import 'package:ecom_riverpod/core/design_system/app_sizes.dart';
 import 'package:ecom_riverpod/core/router/route_names.dart';
 import 'package:ecom_riverpod/features/auth/presentation/controller/auth_controller.dart';
 import 'package:ecom_riverpod/features/auth/presentation/state/auth_state.dart';
+import 'package:ecom_riverpod/features/cart/presentation/controller/cart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -84,10 +86,15 @@ class AppNavigation extends ConsumerWidget {
                   label: 'Category',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    navigationShell.currentIndex == 2
-                        ? Icons.shopping_cart
-                        : Icons.shopping_cart_outlined,
+                  icon: Stack(
+                    children: [
+                      Icon(
+                        navigationShell.currentIndex == 2
+                            ? Icons.shopping_cart
+                            : Icons.shopping_cart_outlined,
+                      ),
+                      Positioned(right: 0, top: -1, child: _CartItemCount()),
+                    ],
                   ),
                   label: 'Cart',
                 ),
@@ -128,6 +135,31 @@ class AnimatedSelectedIndexIndicator extends StatelessWidget {
       curve: Curves.easeOut,
       left: width * index,
       child: Container(width: width, height: 2, color: AppColors.primary),
+    );
+  }
+}
+
+class _CartItemCount extends ConsumerWidget {
+  const _CartItemCount({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final quantity = ref.watch(
+      cartControllerProvider.select((e) => e.totalQuantity),
+    );
+
+    if (quantity == 0) return SizedBox.shrink();
+
+    return Container(
+      padding: EdgeInsets.all(AppSizes.xxs),
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        shape: BoxShape.circle,
+      ),
+      child: Text(
+        '$quantity',
+        style: TextStyle(fontSize: AppFontSizes.xs, color: Colors.white),
+      ),
     );
   }
 }
