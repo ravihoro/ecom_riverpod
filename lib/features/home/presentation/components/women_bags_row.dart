@@ -16,7 +16,7 @@ class WomenBagsRow extends ConsumerWidget {
 
     final totalWidth = MediaQuery.sizeOf(context).width;
 
-    final width = (totalWidth / 2) - AppSpacing.md - AppSpacing.sm;
+    final width = (totalWidth / 2) - 2 * AppSpacing.md;
 
     final height = width + 2 * AppSpacing.md + 2 * AppSpacing.sm;
 
@@ -40,7 +40,7 @@ class WomenBagsRow extends ConsumerWidget {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  spacing: AppSpacing.sm,
+                  spacing: AppSpacing.md,
                   children: womenBags.map((e) {
                     int index = womenBags.indexOf(e);
 
