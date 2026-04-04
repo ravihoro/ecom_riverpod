@@ -33,6 +33,7 @@ class AppProduct extends StatelessWidget {
       },
       child: Column(
         spacing: AppSizes.xs,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
@@ -73,6 +74,7 @@ class AppProduct extends StatelessWidget {
 
           SizedBox(
             height: AppSizes.md,
+            width: height,
             child: Row(
               spacing: AppSizes.sm,
               children: [
@@ -89,6 +91,7 @@ class AppProduct extends StatelessWidget {
           ),
           SizedBox(
             height: AppSizes.md,
+            width: height,
             child: Text(
               '\$${product.price}',
               style: TextStyle(fontWeight: FontWeight.bold),
