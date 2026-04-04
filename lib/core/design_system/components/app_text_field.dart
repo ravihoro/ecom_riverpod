@@ -16,6 +16,7 @@ class AppTextField extends StatelessWidget {
   final double height;
   final bool readOnly;
   final VoidCallback? onTap;
+  final Widget? prefixIcon;
 
   const AppTextField({
     super.key,
@@ -31,6 +32,7 @@ class AppTextField extends StatelessWidget {
     this.height = AppSizes.md,
     this.readOnly = false,
     this.onTap,
+    this.prefixIcon,
   });
 
   @override
@@ -65,6 +67,7 @@ class AppTextField extends StatelessWidget {
             hintStyle: const TextStyle(color: Colors.black54),
             filled: true,
             fillColor: Colors.grey.shade200,
+            prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
             contentPadding: EdgeInsets.symmetric(
               horizontal: AppSpacing.md,

@@ -10,11 +10,15 @@ class SearchRemoteDataSource implements SearchDataSource {
   const SearchRemoteDataSource(this._dio);
 
   @override
-  Future<ProductsResponseModel> searchProduct(String query) async {
+  Future<ProductsResponseModel> searchProduct(
+    String query, {
+    int limit = 6,
+    int skip = 0,
+  }) async {
     try {
       final response = await _dio.get(
         ApiEndpoints.search,
-        queryParameters: {'q': query},
+        queryParameters: {'q': query, 'limit': limit, 'skip': skip},
       );
 
       return ProductsResponseModel.fromJson(response.data);

@@ -13,7 +13,7 @@ part of 'search_controller.dart';
 final searchControllerProvider = SearchControllerProvider._();
 
 final class SearchControllerProvider
-    extends $NotifierProvider<SearchController, SearchState> {
+    extends $NotifierProvider<SearchController, SearchPageState> {
   SearchControllerProvider._()
     : super(
         from: null,
@@ -33,27 +33,27 @@ final class SearchControllerProvider
   SearchController create() => SearchController();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(SearchState value) {
+  Override overrideWithValue(SearchPageState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<SearchState>(value),
+      providerOverride: $SyncValueProvider<SearchPageState>(value),
     );
   }
 }
 
-String _$searchControllerHash() => r'0628fee6216f01b71ea6a38601595b08c103a991';
+String _$searchControllerHash() => r'061bb7b1babb0b5e06fdb4fad96944e76e688f82';
 
-abstract class _$SearchController extends $Notifier<SearchState> {
-  SearchState build();
+abstract class _$SearchController extends $Notifier<SearchPageState> {
+  SearchPageState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<SearchState, SearchState>;
+    final ref = this.ref as $Ref<SearchPageState, SearchPageState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<SearchState, SearchState>,
-              SearchState,
+              AnyNotifier<SearchPageState, SearchPageState>,
+              SearchPageState,
               Object?,
               Object?
             >;

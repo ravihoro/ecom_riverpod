@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AppScaffold extends StatelessWidget {
-  final String title;
+  final String? title;
+  final Widget? header;
   final Widget body;
   final Color? backgroundColor;
 
   const AppScaffold({
     super.key,
-    required this.title,
+    this.title,
+    this.header,
     required this.body,
     this.backgroundColor,
   });
@@ -17,6 +19,12 @@ class AppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bgColor = backgroundColor ?? Colors.grey.shade100;
+
+    Widget? widget = (header != null)
+        ? header
+        : (title != null)
+        ? Text(title!, style: TextStyle(color: Colors.black))
+        : SizedBox.shrink();
 
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +39,7 @@ class AppScaffold extends StatelessWidget {
           ),
         ),
         backgroundColor: bgColor,
-        title: Text(title, style: TextStyle(color: Colors.black)),
+        title: widget,
         centerTitle: true,
       ),
       body: body,

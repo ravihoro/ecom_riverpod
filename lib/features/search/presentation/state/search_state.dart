@@ -1,5 +1,19 @@
 import 'package:ecom_riverpod/features/products/domain/entities/products_entity.dart';
 
+class SearchPageState {
+  final String query;
+  final SearchState status;
+
+  SearchPageState({this.query = '', required this.status});
+
+  SearchPageState copyWith({String? query, SearchState? status}) {
+    return SearchPageState(
+      query: query ?? this.query,
+      status: status ?? this.status,
+    );
+  }
+}
+
 sealed class SearchState {}
 
 class SearchInitial extends SearchState {}

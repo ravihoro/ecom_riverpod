@@ -25,22 +25,25 @@ class ProductList extends ConsumerWidget {
       ProductsError(error: final errorMsg) => Center(
         child: Text('Error: $errorMsg'),
       ),
-      ProductsData(products: final items) => Padding(
-        padding: const EdgeInsets.all(AppSpacing.sm),
-        child: AppProductList(
-          itemCount: items.length,
-          loadMore: () {
-            ref
-                .read(productsControllerProvider(category).notifier)
-                .loadMore(category);
-          },
-          itemBuilder: (context, index) {
-            final product = items[index];
+      ProductsData(products: final items) =>
+        items.isEmpty
+            ? Center(child: Text('No Product Found'))
+            : Padding(
+                padding: const EdgeInsets.all(AppSpacing.sm),
+                child: AppProductList(
+                  itemCount: items.length,
+                  loadMore: () {
+                    ref
+                        .read(productsControllerProvider(category).notifier)
+                        .loadMore(category);
+                  },
+                  itemBuilder: (context, index) {
+                    final product = items[index];
 
-            return ProductCard(product: product, cardWidth: cardWidth);
-          },
-        ),
-      ),
+                    return ProductCard(product: product, cardWidth: cardWidth);
+                  },
+                ),
+              ),
     };
 
     return AppScaffold(title: category, body: body);

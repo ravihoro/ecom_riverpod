@@ -12,9 +12,17 @@ class SearchRepositoryImpl implements SearchRepository {
   const SearchRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, ProductsEntity>> searchProduct(String query) async {
+  Future<Either<Failure, ProductsEntity>> searchProduct(
+    String query,
+    int limit,
+    int skip,
+  ) async {
     try {
-      final response = await _dataSource.searchProduct(query);
+      final response = await _dataSource.searchProduct(
+        query,
+        limit: limit,
+        skip: skip,
+      );
       return Right(response.toEntity());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
