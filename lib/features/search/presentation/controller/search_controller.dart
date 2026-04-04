@@ -74,4 +74,8 @@ class SearchController extends _$SearchController {
       );
     }
   }
+
+  void clear() {
+    state = SearchPageState(status: SearchInitial());
+  }
 }

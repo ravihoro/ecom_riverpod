@@ -10,11 +10,24 @@ import 'package:ecom_riverpod/features/search/presentation/state/search_state.da
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchPage extends ConsumerWidget {
+class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends ConsumerState<SearchPage> {
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(searchControllerProvider);
 
     final spacingWidth = (2 * AppSpacing.sm) + AppSpacing.md;
@@ -48,13 +61,20 @@ class SearchPage extends ConsumerWidget {
     return AppScaffold(
       backgroundColor: Colors.white,
       header: AppTextField(
+        controller: _controller,
         placeholder: 'Search',
         onChanged: (value) {
           ref.read(searchControllerProvider.notifier).onQueryChange(value);
         },
         height: AppSizes.msm,
         prefixIcon: Icon(Icons.search, color: AppColors.primary),
-        suffixIcon: Icon(Icons.cancel_outlined, color: AppColors.primary),
+        suffixIcon: GestureDetector(
+          onTap: () {
+            _controller.clear();
+            ref.read(searchControllerProvider.notifier).clear();
+          },
+          child: Icon(Icons.cancel_outlined, color: AppColors.primary),
+        ),
       ),
       body: body,
     );
