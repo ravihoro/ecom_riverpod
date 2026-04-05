@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:ecom_riverpod/core/design_system/app_spacing.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_button.dart';
 import 'package:ecom_riverpod/core/design_system/components/app_text_field.dart';
 import 'package:ecom_riverpod/core/validators/input_validators.dart';
+import 'package:ecom_riverpod/features/auth/presentation/components/password_text_field.dart';
 import 'package:ecom_riverpod/features/auth/presentation/controller/auth_controller.dart';
 import 'package:ecom_riverpod/features/auth/presentation/controller/sign_in_controller.dart';
 import 'package:ecom_riverpod/features/auth/presentation/state/auth_state.dart';
@@ -58,8 +57,6 @@ class _SignInPageState extends ConsumerState<SignInPage> {
   Widget build(BuildContext context) {
     ref.listen(authControllerProvider, (previous, next) {
       if (next is Authenticated) {
-        print('##### popping login page');
-        log('##### popping login page');
         context.pop();
       }
     });
@@ -98,14 +95,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                       keyboardType: TextInputType.text,
                       onChanged: _onUsernameChanged,
                     ),
-                    AppTextField(
-                      fieldKey: const Key('passwordField'),
-                      placeholder: 'Enter Password',
-                      title: 'Password',
-                      validator: InputValidators.password,
-                      obscureText: true,
-                      onChanged: _onPasswordChanged,
-                    ),
+                    PasswordTextField(onChanged: _onPasswordChanged),
                   ],
                 ),
                 Consumer(
