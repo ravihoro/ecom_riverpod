@@ -6,8 +6,9 @@ abstract class ProductsRepository {
   Future<Either<Failure, ProductsEntity>> getProducts(
     String category,
     int limit,
-    int skip,
-  );
+    int skip, {
+    bool useCache,
+  });
 
   Future<Either<Failure, Product>> getProductById(int id);
 }

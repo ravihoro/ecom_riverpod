@@ -15,13 +15,15 @@ class ProductsRepositoryImpl implements ProductsRepository {
   Future<Either<Failure, ProductsEntity>> getProducts(
     String category,
     int limit,
-    int skip,
-  ) async {
+    int skip, {
+    bool useCache = false,
+  }) async {
     try {
       final data = await _datasource.getProducts(
         category: category,
         limit: limit,
         skip: skip,
+        useCache: useCache,
       );
 
       return Right(data.toEntity());

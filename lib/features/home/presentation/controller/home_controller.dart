@@ -1,6 +1,7 @@
 import 'package:ecom_riverpod/features/home/presentation/state/home_state.dart';
 import 'package:ecom_riverpod/features/home/providers/home_providers.dart';
 import 'package:ecom_riverpod/features/products/domain/usecases/get_products_params.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_controller.g.dart';
@@ -15,24 +16,45 @@ class HomeController extends _$HomeController {
   }
 
   void _getLaptops() async {
-    final either = await ref
+    final cache = await ref
+        .read(getLaptopsUseCaseProvider)
+        .call(GetProductsParams('laptops', 6, 0, useCache: true));
+
+    cache.fold((l) => {}, (r) => {state = state.copyWith(laptops: r.products)});
+
+    final freshData = await ref
         .read(getLaptopsUseCaseProvider)
         .call(GetProductsParams('laptops', 6, 0));
 
-    either.fold(
+    freshData.fold(
       (l) => {},
-      (r) => {state = state.copyWith(laptops: r.products)},
+      (r) => {
+        if (!listEquals(state.laptops, r.products))
+          {state = state.copyWith(laptops: r.products)},
+      },
     );
   }
 
   void _getWomenBags() async {
-    final either = await ref
+    final cache = await ref
+        .read(getWomenBagsUseCaseProvider)
+        .call(GetProductsParams('womens-bags', 6, 0, useCache: true));
+
+    cache.fold(
+      (l) => {},
+      (r) => {state = state.copyWith(womenBags: r.products)},
+    );
+
+    final freshData = await ref
         .read(getWomenBagsUseCaseProvider)
         .call(GetProductsParams('womens-bags', 6, 0));
 
-    either.fold(
+    freshData.fold(
       (l) => {},
-      (r) => {state = state.copyWith(womenBags: r.products)},
+      (r) => {
+        if (!listEquals(state.womenBags, r.products))
+          {state = state.copyWith(womenBags: r.products)},
+      },
     );
   }
 }

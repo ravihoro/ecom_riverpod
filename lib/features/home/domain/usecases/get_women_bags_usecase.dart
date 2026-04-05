@@ -16,6 +16,7 @@ class GetWomenBagsUsecase extends UseCase<ProductsEntity, GetProductsParams> {
       params.category,
       params.limit,
       params.skip,
+      useCache: params.useCache,
     );
   }
 }

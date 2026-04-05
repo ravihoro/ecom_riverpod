@@ -5,6 +5,7 @@ abstract class ProductsDatasource {
     required String category,
     int limit,
     int skip,
+    bool useCache,
   });
 
   Future<ProductModel> getProductById(int id);

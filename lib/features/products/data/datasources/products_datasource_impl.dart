@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:ecom_riverpod/core/constants/api_endpoints.dart';
 import 'package:ecom_riverpod/core/error/exceptions.dart';
 import 'package:ecom_riverpod/features/products/data/datasources/products_datasource.dart';
@@ -14,17 +15,30 @@ class ProductsDatasourceImpl implements ProductsDatasource {
     required String category,
     int limit = 6,
     int skip = 0,
+    bool useCache = false,
   }) async {
     try {
+      final policy = useCache ? CachePolicy.forceCache : CachePolicy.noCache;
+
       final response = await _dio.get(
         ApiEndpoints.productsByCategory(category),
         queryParameters: {'limit': limit, 'skip': skip},
+        options: Options(extra: {'cache_policy': policy}),
       );
 
       final data = ProductsResponseModel.fromJson(response.data);
 
       return data;
     } on DioException catch (e) {
+      if (useCache) {
+        return getProducts(
+          category: category,
+          limit: limit,
+          skip: skip,
+          useCache: false,
+        );
+      }
+
       final statusCode = e.response?.statusCode;
 
       if (statusCode != null && statusCode >= 500) {
