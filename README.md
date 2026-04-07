@@ -1,17 +1,30 @@
-# ecom_riverpod
+# 🛍️ E-commerce Flutter App
 
-A new Flutter project.
+A scalable E-commerce mobile application built with Flutter, following **Clean Architecture** and **Test-Driven Development (TDD)**, using **DummyJSON APIs**.  
+The app focuses on maintainability, performance, and clean separation of concerns while demonstrating production-level API handling.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+- Product listing with pagination
+- Category-based browsing
+- Debounced product search
+- Product detail view
+- Token-based authentication with auto-refresh
+- API caching for improved performance
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🧠 Tech Stack
+
+- Flutter
+- Riverpod
+- Dio
+- Freezed
+- Dio Cache Interceptor
+- Auth Interceptor
+
+## Screenshots
+
+<img src = "screenshots/sc_1.jpg" width = 250> <img src = "screenshots/sc_2.jpg" width = 250> <img src = "screenshots/sc_3.jpg" width = 250> <br> <img src = "screenshots/sc_4.jpg" width = 250> <img src = "screenshots/sc_5.jpg" width = 250> <img src = "screenshots/sc_6.jpg" width = 250><br><img src = "screenshots/sc_7.jpg" width = 250> <img src = "screenshots/sc_8.jpg" width = 250> <img src = "screenshots/sc_9.jpg" width = 250> <br> <img src = "screenshots/sc_10.jpg" width = 250> <img src = "screenshots/sc_11.jpg" width = 250> <img src = "screenshots/sc_12.jpg" width = 250>
