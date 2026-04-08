@@ -13,6 +13,7 @@ The app focuses on maintainability, performance, and clean separation of concern
 - Product detail view
 - Token-based authentication with auto-refresh
 - API caching for improved performance
+- Declarative navigation using GoRouter
 
 ---
 
@@ -21,9 +22,9 @@ The app focuses on maintainability, performance, and clean separation of concern
 - Flutter
 - Riverpod
 - Dio
+- GoRouter
 - Freezed
-- Dio Cache Interceptor
-- Auth Interceptor
+- Mocktail
 
 ## Screenshots
 
